@@ -1,7 +1,7 @@
 <module>
 	<rawname>saymyname</rawname>
 	<name>Say My Name</name>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<repo>extended</repo>
 	<publisher>Quirum srl</publisher>
 	<license>GPLv3+</license>
@@ -14,6 +14,7 @@
 	</menuitems>
 	<location>release/2.11/tts-2.11.0.7.tgz</location>
 	<changelog>
+		*1.0.3* Display fix and more debug
 		*1.0.2* Change class name
 		*1.0.1* First version
 	</changelog>
