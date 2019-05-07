@@ -17,7 +17,7 @@ $enginebin = '/usr/node';
 
 /** Database **/
 include '/opt/quirum/db.php';
-$callerid = $agi->request['agi_callerid'];
+$callerid = $AGI->request['agi_callerid'];
 debug("Number: $callerid", 1);
 
 // Create connection
