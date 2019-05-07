@@ -45,9 +45,49 @@ debug("Text: $text", 1);
 $f = $AGI->get_full_variable('${CHANNEL(audionativeformat)}');
 $nformat = $f['data'];
 $format = array(
-	"ext" => "wav",
+	"ext" => "sln",
 	"rate" => "8000"
 );
+
+//amazing work my friend: https://github.com/stevenmirabito/asterisk-picotts/blob/master/picotts.agi#L251
+switch(true) {
+	case preg_match('/(silk|sln)12/',$nformat):
+		$format = array(
+			"ext" => "sln12",
+			"rate" => "12000"
+		);
+	break;
+	case preg_match('/(speex|slin|silk)16|g722|siren7/',$nformat):
+		$format = array(
+			"ext" => "sln16",
+			"rate" => "16000"
+		);
+	break;
+	case preg_match('/(speex|slin|celt)32|siren14/',$nformat):
+		$format = array(
+			"ext" => "sln32",
+			"rate" => "32000"
+		);
+	break;
+	case preg_match('/(celt|slin)44/',$nformat):
+		$format = array(
+			"ext" => "sln44",
+			"rate" => "44000"
+		);
+	break;
+	case preg_match('/(celt|slin)48/',$nformat):
+		$format = array(
+			"ext" => "sln48",
+			"rate" => "48000"
+		);
+	break;
+	default;
+		$format = array(
+			"ext" => "wav",
+			"rate" => "8000"
+		);
+	break;
+}
 
 if (!isset($text))
 {
