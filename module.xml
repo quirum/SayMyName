@@ -1,7 +1,7 @@
 <module>
 	<rawname>saymyname</rawname>
 	<name>Say My Name</name>
-	<version>1.0.8</version>
+	<version>1.0.9</version>
 	<repo>extended</repo>
 	<publisher>Quirum srl</publisher>
 	<license>GPLv3+</license>
@@ -14,6 +14,7 @@
 	</menuitems>
 	<location>release/2.11/tts-2.11.0.7.tgz</location>
 	<changelog>
+		*1.0.9* Fix bug
 		*1.0.8* Improve audio file
 		*1.0.7* More debug
 		*1.0.6* Fix agi script

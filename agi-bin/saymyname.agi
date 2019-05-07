@@ -11,7 +11,7 @@ putenv("GOOGLE_APPLICATION_CREDENTIALS=/opt/quirum/config.json");
 
 $text = $argv[1];
 $textnotfound = $argv[2];
-$hash = md5($text);
+
 $engine = 'googletts';
 $enginebin = '/usr/bin/node';
 
@@ -39,7 +39,7 @@ if ($result->num_rows > 0) {
 	$text = $textnotfound;
 }
 $conn->close();
-
+$hash = md5($text);
 debug("Text: $text", 1);
 
 $f = $AGI->get_full_variable('${CHANNEL(audionativeformat)}');
