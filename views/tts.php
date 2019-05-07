@@ -71,10 +71,10 @@
 										<div class="form-group">
 											<div class="col-md-3">
 												<label class="control-label" for="name"><?php echo _("Text not found"); ?></label>
-												<i class="fa fa-question-circle fpbx-help-icon" data-for="text"></i>
+												<i class="fa fa-question-circle fpbx-help-icon" data-for="textnotfound"></i>
 											</div>
 											<div class="col-md-9">
-												<textarea name="textnotfound" class="form-control" cols=50 rows=5 required><?php echo (isset($text) ? $text : ''); ?></textarea>
+												<textarea name="textnotfound" class="form-control" cols=50 rows=5 required><?php echo (isset($textnotfound) ? $textnotfound : ''); ?></textarea>
 											</div>
 										</div>
 									</div>

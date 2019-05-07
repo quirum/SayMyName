@@ -17,7 +17,7 @@ $enginebin = '/usr/bin/node';
 
 /** Database **/
 // include '/opt/quirum/db.php';
-include '/etc/freepbx.conf';
+// include '/etc/freepbx.conf';
 
 $callerid = $AGI->request['agi_callerid'];
 debug("Number: $callerid", 1);
