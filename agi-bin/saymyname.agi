@@ -4,8 +4,11 @@ $config = parse_amportal_conf( "/etc/amportal.conf" );
 
 require_once "phpagi.php";
 require_once "phpagi-asmanager.php";
+require_once "sql.php";
 
 $AGI = new AGI();
+$db = new AGIDB($AGI);
+
 debug("SayMyName AGI Started", 1);
 putenv("GOOGLE_APPLICATION_CREDENTIALS=/opt/quirum/config.json"); 
 
@@ -19,30 +22,17 @@ $enginebin = '/usr/bin/node';
 $callerid = $AGI->request['agi_callerid'];
 debug("Number: $callerid", 1);
 
-$servername = $AGI->get_var("AMPDBHOST");
-$username = $AGI->get_var("AMPDBUSER");
-$password = $AGI->get_var("AMPDBPASS");
-$dbname = $AGI->get_var("AMPDBNAME");
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-	debug("Connection failed: $conn->connect_error", 1);
-    return 1;
-}
-
 $sql = "select fname,lname FROM contactmanager_entry_numbers INNER JOIN contactmanager_group_entries ON entryid=contactmanager_group_entries.id where number = '{$callerid}';";
-$result = $conn->query($sql);
+$row = $db->sql($sql,'ASSOC');
+debug($db->numrows);
 
-if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $text = str_replace("%n", $row["fname"], $text);
-        $text = str_replace("%s", $row["lname"], $text);
+if ($db->numrows > 0) {
+        $text = str_replace("%n", $row[0]["fname"], $text);
+        $text = str_replace("%s", $row[0]["lname"], $text);
 } else {
 	$text = $textnotfound;
 }
-$conn->close();
+
 $hash = md5($text);
 debug("Text: $text", 1);
 
