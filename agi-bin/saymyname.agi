@@ -13,7 +13,7 @@ $text = $argv[1];
 $textnotfound = $argv[2];
 $hash = md5($text);
 $engine = 'googletts';
-$enginebin = '/usr/node';
+$enginebin = '/usr/bin/node';
 
 /** Database **/
 include '/opt/quirum/db.php';
@@ -37,9 +37,10 @@ if ($result->num_rows > 0) {
         $text = str_replace("%s", $row["lname"], $text);
 } else {
 	$text = $textnotfound;
-	debug("Number not found: $callerid", 1);
 }
 $conn->close();
+
+debug("Text: $text", 1);
 
 $f = $AGI->get_full_variable('${CHANNEL(audionativeformat)}');
 $nformat = $f['data'];
