@@ -1,0 +1,111 @@
+#!/usr/bin/php -q
+<?php
+$config = parse_amportal_conf( "/etc/amportal.conf" );
+
+require_once "phpagi.php";
+require_once "phpagi-asmanager.php";
+
+$AGI = new AGI();
+debug("SayMyName AGI Started", 1);
+putenv("GOOGLE_APPLICATION_CREDENTIALS=/opt/quirum/config.json"); 
+
+$text = $argv[1];
+$textnotfound = $argv[2];
+$hash = md5($text);
+$engine = 'googletts';
+$enginebin = '/usr/node';
+
+/** Database **/
+include '/opt/quirum/db.php';
+$callerid = $agi->get_variable('CALLERID(num)');
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "select fname,lname FROM contactmanager_entry_numbers INNER JOIN contactmanager_group_entries ON entryid=contactmanager_group_entries.id where number = '{$callerid}';";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $text = str_replace("%n", $row["fname"], $text);
+        $text = str_replace("%s", $row["lname"], $text);
+} else {
+	$text = $textnotfound;
+	debug("Number not found: $callerid", 1);
+}
+$conn->close();
+
+$f = $AGI->get_full_variable('${CHANNEL(audionativeformat)}');
+$nformat = $f['data'];
+$format = array(
+	"ext" => "wav",
+	"rate" => "8000"
+);
+
+if (!isset($text))
+{
+	return 0;
+}
+
+if ( $retval != 0 ) {
+	debug("ERROR: TTS engine binary not found.", 1);
+	return $retval;
+}
+
+$soundsdir = $config["ASTVARLIBDIR"]."/sounds/ttsng";
+if( !is_dir($soundsdir) ) mkdir($soundsdir, 0775);
+
+$wavefile = $soundsdir."/$engine-tts-$hash.".$format['ext'];
+$tmpwavefile = $soundsdir."/$engine-tts-temp-$hash.wav";
+debug("Generated WAV file: $wavefile", 3);
+$textfile = $soundsdir."/$engine-tts-$hash.txt";
+debug("TXT file: $textfile", 3);
+
+if ( !file_exists($wavefile) ) {
+	debug("Text to speech wave file doesnt exist, lets create it.", 1);
+	if ( false === ($fh = fopen($textfile, "w")) ) {
+		debug("ERROR: Cannot open the file: $textfile", 1);
+		return 1;
+	}
+	if ( false === fwrite($fh, $text) ) {
+		debug("ERROR: Cannot write to file: $textfile", 1);
+		return 1;
+	}
+	fclose($fh);
+	debug("Executing $engine", 1);
+	exec($enginebin." /opt/quirum/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
+}
+if(file_exists($tmpwavefile)) {
+	exec("sox $tmpwavefile -q -r ".$format['rate']." -t raw $wavefile");
+	unlink($tmpwavefile);
+}
+
+if(file_exists($wavefile)) {
+	$AGI->wait_for_digit(1000);
+	debug("Streaming the generated wave.", 1);
+	$AGI->stream_file("ttsng/".basename($wavefile,".".$format['ext']),'#');
+} else {
+	debug("File was not created!", 1);
+}
+debug("SayMyName AGI end", 1);
+
+function parse_amportal_conf($filename) {
+	$file = file($filename);
+	$matches = array();
+	$matchpattern = '/^\s*([a-zA-Z0-9]+)\s*=\s*(.*)\s*([;#].*)?/';
+	foreach ($file as $line) {
+		if (preg_match($matchpattern, $line, $matches)) {
+			$conf[ $matches[1] ] = $matches[2];
+		}
+	}
+	return $conf;
+}
+
+function debug($string, $level=3) {
+	global $AGI;
+	$AGI->verbose($string, $level);
+}

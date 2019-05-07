@@ -1,0 +1,28 @@
+<module>
+	<rawname>saymyname</rawname>
+	<name>Say My Name</name>
+	<version>1.0.1</version>
+	<repo>extended</repo>
+	<publisher>Quirum srl</publisher>
+	<license>GPLv3+</license>
+	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
+	<type>setup</type>
+	<description>Allows you to generete a welcome text with googletts that can include name and/or surname of caller if he is in phonebook.</description>
+	<category>Applications</category>
+	<menuitems>
+		<saymyname needsenginedb="yes">Say My Name</saymyname>
+	</menuitems>
+	<location>release/2.11/tts-2.11.0.7.tgz</location>
+	<changelog>
+		*1.0.1* First version
+	</changelog>
+	<popovers>
+		<saymyname>
+			<display>SayMyName</display>
+		</saymyname>
+	</popovers>
+	<supported>
+		<version>1.0.0</version>
+	</supported>
+	<md5sum>95e334009eb9d41adc63878fd307044c</md5sum>
+</module>
