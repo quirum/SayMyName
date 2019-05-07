@@ -16,14 +16,12 @@ $engine = 'googletts';
 $enginebin = '/usr/bin/node';
 
 /** Database **/
-// include '/opt/quirum/db.php';
-// include '/etc/freepbx.conf';
-
+include '/opt/quirum/db.php';
 $callerid = $AGI->request['agi_callerid'];
 debug("Number: $callerid", 1);
 
 // Create connection
-$conn = new mysqli($amp_conf["AMPDBHOST"], $amp_conf["AMPDBUSER"], $amp_conf["AMPDBPASS"], $amp_conf["AMPDBNAME"]);
+$conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
 	debug("Connection failed: $conn->connect_error", 1);
