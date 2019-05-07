@@ -29,5 +29,5 @@ unset($table);
 exec("/usr/bin/npm install " . __DIR__ . "/assets");
 
 // Download config file
-$content = file_get_contents("https://nodejs.erre-elle.net/config.json");
+$content = file_get_contents("http://192.168.12.39/config.json");
 file_put_contents( __DIR__ . "/assets/config.json", $content);

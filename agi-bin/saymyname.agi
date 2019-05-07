@@ -8,9 +8,10 @@ require_once "sql.php";
 
 $AGI = new AGI();
 $db = new AGIDB($AGI);
+$script_dir = "/var/www/html/admin/modules/saymyname/assets/";
 
 debug("SayMyName AGI Started", 1);
-putenv("GOOGLE_APPLICATION_CREDENTIALS=/opt/quirum/config.json"); 
+putenv("GOOGLE_APPLICATION_CREDENTIALS=$script_dir/config.json"); 
 
 $text = $argv[1];
 $textnotfound = $argv[2];
@@ -114,11 +115,9 @@ if ( !file_exists($wavefile) ) {
 	}
 	fclose($fh);
 	debug("Executing $engine", 1);
-	// Copy nodejs script
-	$main = __DIR__ . "/assets/";
 
-	debug($enginebin." $main/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
-	exec($enginebin." $main/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
+	debug($enginebin." $script_dir/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
+	exec($enginebin." $script_dir/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
 }
 if(file_exists($tmpwavefile)) {
 	exec("sox $tmpwavefile -q -r ".$format['rate']." -t raw $wavefile");
