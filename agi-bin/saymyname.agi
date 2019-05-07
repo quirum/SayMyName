@@ -18,12 +18,14 @@ $enginebin = '/usr/node';
 /** Database **/
 include '/opt/quirum/db.php';
 $callerid = $agi->get_variable('CALLERID(num)');
+debug("Number: $callerid", 1);
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+	debug("Connection failed: $conn->connect_error", 1);
+    return 1;
 }
 
 $sql = "select fname,lname FROM contactmanager_entry_numbers INNER JOIN contactmanager_group_entries ON entryid=contactmanager_group_entries.id where number = '{$callerid}';";

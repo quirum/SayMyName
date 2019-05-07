@@ -6,7 +6,7 @@
         <tr>
             <th data-sortable="true" data-field="name"><?php echo _('Name')?></th>
             <th data-sortable="true" data-field="text" data-formatter="textFormatter"><?php echo _('Text')?></th>
-            <!-- <th data-sortable="true" data-field="engine"><?php echo _('Engine')?></th> -->
+            <th data-sortable="true" data-field="textnotfound"  data-formatter="textFormatter"><?php echo _('Text not found')?></th>
             <th data-sortable="true" data-field="id" data-formatter='actionFormatter'><?php echo _('Actions')?></th>
         </tr>
     </thead>

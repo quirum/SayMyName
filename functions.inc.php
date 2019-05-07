@@ -65,7 +65,6 @@ function saymyname_get_config($p_var) {
 					$ttsgoto = $tts['goto'];
 					$textnotfound = $tts['textnotfound'];
 					$ext->add($contextname, $ttsid, '', new ext_noop('TTS SayMyName: '.$ttsname));
-					$ext->add($contextname, $ttsid, '', new ext_noop('Using: '.$ttsengine));
 					$ext->add($contextname, $ttsid, '', new ext_answer());
 					$ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext.'",'.$textnotfound));
 					$ext->add($contextname, $ttsid, '', new ext_goto($ttsgoto));
