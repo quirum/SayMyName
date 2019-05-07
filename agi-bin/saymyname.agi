@@ -114,8 +114,11 @@ if ( !file_exists($wavefile) ) {
 	}
 	fclose($fh);
 	debug("Executing $engine", 1);
-	debug($enginebin." /opt/quirum/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
-	exec($enginebin." /opt/quirum/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
+	// Copy nodejs script
+	$main = __DIR__ . "/assets/";
+
+	debug($enginebin." $main/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
+	exec($enginebin." $main/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
 }
 if(file_exists($tmpwavefile)) {
 	exec("sox $tmpwavefile -q -r ".$format['rate']." -t raw $wavefile");
