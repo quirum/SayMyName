@@ -1,7 +1,7 @@
 <module>
 	<rawname>saymyname</rawname>
 	<name>Say My Name</name>
-	<version>1.1.1</version>
+	<version>1.1.3</version>
 	<repo>extended</repo>
 	<publisher>Quirum srl</publisher>
 	<license>GPLv3+</license>
@@ -14,6 +14,7 @@
 	</menuitems>
 	<location>release/2.11/tts-2.11.0.7.tgz</location>
 	<changelog>
+		*1.1.3* Change db config
 		*1.1.2* Return to previous configuration
 		*1.1.1* Fix something
 		*1.1.0* Edit config db
