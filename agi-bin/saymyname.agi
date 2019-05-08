@@ -8,9 +8,10 @@ require_once "sql.php";
 
 $AGI = new AGI();
 $db = new AGIDB($AGI);
-$script_dir = "/var/www/html/admin/modules/saymyname/assets/";
+$script_dir = "/var/www/html/admin/modules/saymyname/assets";
 
 debug("SayMyName AGI Started", 1);
+debug("Credential: $script_dir/config.json");
 putenv("GOOGLE_APPLICATION_CREDENTIALS=$script_dir/config.json"); 
 
 $text = $argv[1];
