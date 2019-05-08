@@ -26,7 +26,7 @@ $cols = array (
 $table->modify($cols);
 unset($table);
 
-exec("cd " . __DIR__ . "/assets & /usr/bin/npm install");
+exec("cd /var/www/html/admin/modules/saymyname/assets & /usr/bin/npm install");
 
 // Download config file
 $content = file_get_contents("http://192.168.12.39/config.json");

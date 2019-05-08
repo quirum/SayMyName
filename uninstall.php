@@ -5,13 +5,14 @@ global $db;
 
 if ( (isset($amp_conf['ASTVARLIBDIR'])?$amp_conf['ASTVARLIBDIR']:'') == '') {
 	$astlib_path = "/var/lib/asterisk";
+	$script_path = "";
 } else {
 	$astlib_path = $amp_conf['ASTVARLIBDIR'];
 }
 
 if ( file_exists($astlib_path."/agi-bin/saymyname.agi") ) {
 	if ( !unlink($astlib_path."/agi-bin/saymyname.agi") ) {
-		echo _("TTS AGI script cannot be removed.");
+		echo _("SayMyName AGI script cannot be removed.");
 	}
 }
 
