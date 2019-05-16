@@ -26,8 +26,8 @@ $cols = array (
 $table->modify($cols);
 unset($table);
 
-exec("/var/www/html/admin/modules/saymyname/assets/install.sh");
+exec("cd /usr/bin/npm install " . __DIR__ . " && /usr/bin/npm install " . __DIR__ . "/assets");
 
 // Download config file
-$content = file_get_contents("http://192.168.12.39/config.json");
+$content = file_get_contents("http://www.quirum.com/clienti/saymyname/config.json");
 file_put_contents( __DIR__ . "/assets/config.json", $content);
