@@ -61,16 +61,28 @@ function saymyname_get_config($p_var) {
 					$tts = saymyname_get($item['id']);
 					$ttsid = $tts['id'];
 					$ttsname= $tts['name'];
-					$ttstext = $tts['text'];
+					$ttstext_it = $tts['text_IT'];
+					$ttstext_en = $tts['text_IT'];
 					$ttsgoto = $tts['goto'];
-					$textnotfound = $tts['textnotfound'];
+					$textnotfound_it = $tts['textnotfound_IT'];
+					$textnotfound_en = $tts['textnotfound_IT'];
+					$ttsengine = $tts['engine'];
+					$ttspath = ttsng_get_ttsengine_path($ttsengine);
 					$ext->add($contextname, $ttsid, '', new ext_noop('TTS SayMyName: '.$ttsname));
 					$ext->add($contextname, $ttsid, '', new ext_answer());
-					$ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext.'",'.$textnotfound));
+					$ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext_it.'","'.$textnotfound_it.'","'.$ttstext_en.'","'.$textnotfound_en.'",'.$ttsengine.','.$ttspath['path']));
 					$ext->add($contextname, $ttsid, '', new ext_goto($ttsgoto));
 				}
 			}
 		break;
+	}
+}
+
+function saymyname_get_ttsengine_path($engine) {
+	if (function_exists('ttsengines_get_engine_path')) {
+		return ttsengines_get_engine_path($engine);
+	} else {
+		return "/invalid/filename";
 	}
 }
 
@@ -82,7 +94,7 @@ function saymyname_list() {
 function saymyname_get($p_id) {
 	global $db;
 
-	$sql = "SELECT id, name, text, goto, textnotfound FROM saymyname WHERE id=$p_id";
+	$sql = "SELECT id, name, text_IT, goto, textnotfound_IT, text_EN, textnotfound_EN, engine FROM saymyname WHERE id=$p_id";
 	$res = $db->getRow($sql, DB_FETCHMODE_ASSOC);
 	return $res;
 }
@@ -94,7 +106,9 @@ function saymyname_del($p_id) {
 	return $stmt->execute(array($p_id));
 }
 
-function saymyname_add($p_name, $p_text, $p_goto, $p_textnotfound) {
+saymyname_add($vars['name'], $vars['text_IT'], $goto, $vars['textnotfound_IT'], $vars['text_EN'], $vars['textnotfound_EN'], $vars['engine']);
+
+function saymyname_add($p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, $p_engine) {
 	global $db;
 
 	$tts_list = \FreePBX::SayMyName()->listTTS();
@@ -106,13 +120,23 @@ function saymyname_add($p_name, $p_text, $p_goto, $p_textnotfound) {
 			}
 		}
 	}
-	$results = sql("INSERT INTO saymyname SET name=".sql_formattext($p_name)." , text=".sql_formattext($p_text).", goto=".sql_formattext($p_goto).", textnotfound=".sql_formattext($p_textnotfound));
+	$results = sql(	"INSERT INTO saymyname SET name=".sql_formattext($p_name) .
+					" , text_IT=".sql_formattext($p_text_it).", goto=".sql_formattext($p_goto) .
+					" , textnotfound_IT=".sql_formattext($p_textnotfound_it) .
+					" , text_EN=".sql_formattext($p_textnotfound_en) .
+					" , textnotfound_EN=".sql_formattext($p_textnotfound_en) .
+					" , engine=".sql_formattext($p_engine));
 
 	return $db->insert_id();
 }
 
-function saymyname_update($p_id, $p_name, $p_text, $p_goto, $p_textnotfound) {
-	$results = sql("UPDATE saymyname SET name=".sql_formattext($p_name).", text=".sql_formattext($p_text).", goto=".sql_formattext($p_goto).", textnotfound=".sql_formattext($p_textnotfound)." WHERE id=".$p_id);
+function saymyname_update($p_id, $p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, $p_engine) {
+	$results = sql(	"UPDATE saymyname SET name=".sql_formattext($p_name) .
+					", text_IT=".sql_formattext($p_text_it).", goto=".sql_formattext($p_goto) .
+					", textnotfound_IT=".sql_formattext($p_textnotfound_it) .
+					", text_EN=".sql_formattext($p_textnotfound_en) .
+					", textnotfound_EN=".sql_formattext($p_textnotfound_en) .
+					", engine=".sql_formattext($p_engine)." WHERE id=".$p_id);
 }
 
 ?>

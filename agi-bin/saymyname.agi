@@ -13,16 +13,38 @@ $script_dir = "/var/www/html/admin/modules/saymyname/assets";
 debug("SayMyName AGI Started", 1);
 debug("Credential: $script_dir/config.json");
 putenv("GOOGLE_APPLICATION_CREDENTIALS=$script_dir/config.json"); 
+$text_it = $argv[1];
+$textnotfound_it = $argv[2];
 
-$text = $argv[1];
-$textnotfound = $argv[2];
+$text_en = $argv[3];
+$textnotfound_en = $argv[4];
 
-$engine = 'googletts';
-$enginebin = '/usr/bin/node';
+$engine = $argv[5];
+$enginebin = $argv[6];
+// $engine = 'googletts';
+// $enginebin = '/usr/bin/node';
+
+$tts_lang = 'IT';
 
 /** Database **/
 $callerid = $AGI->request['agi_callerid'];
 debug("Number: $callerid", 1);
+
+if(substr( $callerid, 0, 2 ) === "00" || substr( $callerid, 0, 1 ) === "+"){
+	if((substr( $callerid, 0, 2 ) === "00" && substr( $callerid, 2, 4 ) === "39") || 
+			(substr( $callerid, 0, 1 ) === "+" && substr( $callerid, 1, 3 ) === "39"))
+		$tts_lang = 'IT';
+	else
+		$tts_lang = 'EN';
+}
+
+if($tts_lang == 'IT'){
+	$text = $text_it;
+	$textnotfound = $textnotfound_it;
+} else {
+	$text = $text_en;
+	$textnotfound = $textnotfound_en;
+}
 
 $sql = "select fname,lname FROM contactmanager_entry_numbers INNER JOIN contactmanager_group_entries ON entryid=contactmanager_group_entries.id where number = '{$callerid}';";
 $row = $db->sql($sql,'ASSOC');
@@ -79,7 +101,7 @@ switch(true) {
 	break;
 	default;
 		$format = array(
-			"ext" => "wav",
+			"ext" => "sln",
 			"rate" => "8000"
 		);
 	break;
@@ -99,10 +121,13 @@ $soundsdir = $config["ASTVARLIBDIR"]."/sounds/ttsng";
 if( !is_dir($soundsdir) ) mkdir($soundsdir, 0775);
 
 $wavefile = $soundsdir."/$engine-tts-$hash.".$format['ext'];
-$tmpwavefile = $soundsdir."/$engine-tts-temp-$hash.wav";
+$tmpwavefile = $soundsdir."/$engine-tts-$hash.wav";
+$tmpwavefile_mixed = $soundsdir."/$engine-tts-$hash"."_mixed.wav";
 debug("Generated WAV file: $wavefile", 3);
 $textfile = $soundsdir."/$engine-tts-$hash.txt";
 debug("TXT file: $textfile", 3);
+
+$soundfile = $soundsdir."/MoHNewElfin.wav";
 
 if ( !file_exists($wavefile) ) {
 	debug("Text to speech wave file doesnt exist, lets create it.", 1);
@@ -117,12 +142,19 @@ if ( !file_exists($wavefile) ) {
 	fclose($fh);
 	debug("Executing $engine", 1);
 
-	debug($enginebin." $script_dir/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
-	exec($enginebin." $script_dir/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash");
-}
+	switch ($engine) {
+		case 'googletts':
+			debug($enginebin." $script_dir/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash --lang='$tts_lang'");
+			exec($enginebin." $script_dir/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash --lang='$tts_lang'");
+			break;
+        default:
+			debug("$engine is not a valid engine!", 1);
+		break;
+	}}
 if(file_exists($tmpwavefile)) {
-	exec("sox $tmpwavefile -q -r ".$format['rate']." -t raw $wavefile");
+	exec("$script_dir/mix.sh 1 $tmpwavefile $soundfile 50 $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -t raw $wavefile");
 	unlink($tmpwavefile);
+	unlink($tmpwavefile_mixed);
 }
 
 if(file_exists($wavefile)) {

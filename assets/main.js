@@ -14,12 +14,23 @@ const client = new textToSpeech.TextToSpeechClient();
 // The text to synthesize
 const text = argv.text;
 
+// Lang
+const lang = argv.lang;
+
+var voice = {languageCode: 'it-IT', name: 'it-IT-Wavenet-A', ssmlGender: 'FEMALE'}
+
+if(lang == undefined || lang == 'IT' )
+	voice = {languageCode: 'it-IT', name: 'it-IT-Wavenet-A', ssmlGender: 'FEMALE'}
+else
+	voice = {languageCode: 'en-US', name: 'en-US-Wavenet-C', ssmlGender: 'FEMALE'}
+	
+
 // Construct the request
 const request = {
 	input: {text: text},
      	// Select the language and SSML Voice Gender (optional)
        	//voice: {languageCode: 'pt-BR', ssmlGender: 'en-US-Wavenet-F'},
-        voice: {languageCode: 'it-IT', name: 'it-IT-Wavenet-A', ssmlGender: 'FEMALE'},
+        voice: voice,
         // Select the type of audio encoding
         audioConfig: {audioEncoding: 'MP3'},
 };

@@ -5,8 +5,11 @@
     <thead>
         <tr>
             <th data-sortable="true" data-field="name"><?php echo _('Name')?></th>
-            <th data-sortable="true" data-field="text" data-formatter="textFormatter"><?php echo _('Text')?></th>
-            <th data-sortable="true" data-field="textnotfound"  data-formatter="textFormatter"><?php echo _('Text not found')?></th>
+            <th data-sortable="true" data-field="text_IT" data-formatter="textFormatter"><?php echo _('Text IT')?></th>
+            <th data-sortable="true" data-field="textnotfound_IT"  data-formatter="textFormatter"><?php echo _('Text not found IT')?></th>
+            <th data-sortable="true" data-field="text_EN" data-formatter="textFormatter"><?php echo _('Text EN')?></th>
+            <th data-sortable="true" data-field="textnotfound_EN"  data-formatter="textFormatter"><?php echo _('Text not found EN')?></th>
+            <th data-sortable="true" data-field="engine"><?php echo _('Engine')?></th>
             <th data-sortable="true" data-field="id" data-formatter='actionFormatter'><?php echo _('Actions')?></th>
         </tr>
     </thead>

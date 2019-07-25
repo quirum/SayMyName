@@ -1,7 +1,7 @@
 <module>
 	<rawname>saymyname</rawname>
 	<name>Say My Name</name>
-	<version>1.2.1</version>
+	<version>1.2.3</version>
 	<repo>extended</repo>
 	<publisher>Quirum srl</publisher>
 	<license>GPLv3+</license>
@@ -12,8 +12,14 @@
 	<menuitems>
 		<saymyname needsenginedb="yes">Say My Name</saymyname>
 	</menuitems>
+	<depends>
+		<engine>asterisk ge 1.6</engine>
+		<module>ttsengines</module>
+		<version>13.0.154</version>
+	</depends>
 	<location>release/2.11/tts-2.11.0.7.tgz</location>
 	<changelog>
+		*1.2.2*  SayMyName went in America
 		*1.2.2*  Fix npm install -g again
 		*1.2.1*  Fix npm install -g
 		*1.2.0*  New version without dependency

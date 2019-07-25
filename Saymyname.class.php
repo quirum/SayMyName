@@ -27,8 +27,11 @@ class SayMyName extends \FreePBX_Helpers implements \BMO {
 			'id',
 			'goto0',
 			'name',
-			'text',
-			'textnotfound',
+			'text_IT',
+			'textnotfound_IT',
+			'text_EN',
+			'textnotfound_EN',
+			'engine'
 		);
 		$vars = array();
 		$goto = null;
@@ -43,7 +46,7 @@ class SayMyName extends \FreePBX_Helpers implements \BMO {
 
 		switch ($vars['action']) {
 			case "add":
-				$_REQUEST['id'] = \saymyname_add($vars['name'], $vars['text'], $goto, $vars['textnotfound']);
+				$_REQUEST['id'] = \saymyname_add($vars['name'], $vars['text_IT'], $goto, $vars['textnotfound_IT'], $vars['text_EN'], $vars['textnotfound_EN'], $vars['engine']);
 				\needreload();
 			break;
 			case "delete":
@@ -52,7 +55,7 @@ class SayMyName extends \FreePBX_Helpers implements \BMO {
 				\needreload();
 			break;
 			case "edit":
-				\saymyname_update($vars['id'], $vars['name'], $vars['text'], $goto, $_REQUEST['textnotfound']);
+				\saymyname_update($vars['id'], $vars['name'], $vars['text_IT'], $goto, $vars['textnotfound_IT'], $vars['text_EN'], $vars['textnotfound_EN'], $vars['engine']);
 				\needreload();
 			break;
 		}
