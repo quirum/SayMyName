@@ -24,6 +24,9 @@ sox tmp_out_crop.wav tmp_out_fade.wav fade 0 $LENGTH $FADE_OUT_L
 # Concat all file
 ffmpeg -i silence_$SILENCE_SEC.wav -i tmp_out_fade.wav  -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' -y $WAV_OUT
 
+rm silence_*.wav
+rm tmp_*.wav
+
 # ffmpeg -i google.wav -i MoHNewElfin.wav -filter_complex amix=inputs=2:duration=shortest output2.wav
 # ffmpeg -i output.wav -c copy -t 00:00:50.0 out_crop.wav
 # ffmpeg -i silence.wav -i output.wav -i google.wav -filter_complex '[0:0][1:0][2:0]concat=n=3:v=0:a=1[out]' -map '[out]' concat.wav

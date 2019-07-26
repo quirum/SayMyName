@@ -70,7 +70,6 @@
 									<span id="text-help" class="help-block fpbx-help-block"><?php echo _("Enter the text you want to synthetize.\nYou can use: %n for name and %s for surname in the text"); ?></span>
 								</div>
 							</div>
-							<div class="element-container">
 							<div class="row">
 								<div class="col-md-9">
 									<div class="row">
@@ -119,7 +118,6 @@
 									<span id="text-help" class="help-block fpbx-help-block"><?php echo _("Enter the text you want to synthetize.\nYou can use: %n for name and %s for surname in the text"); ?></span>
 								</div>
 							</div>
-							<div class="element-container">
 							<div class="row">
 								<div class="col-md-9">
 									<div class="row">
@@ -177,6 +175,7 @@
 						</div>
 					</div>
 					<?php //END Destination ?>
+
 					<?php //TTS Engine ?>
 					<div class="section-title" data-for="section5"><h3><i class="fa fa-minus"></i><?php echo _("TTS Engines"); ?></h3></div>
 					<div class="section" data-id="section5">
@@ -187,7 +186,7 @@
 										<div class="form-group">
 											<div class="col-md-3">
 												<label class="control-label" for="engine"><?php echo _("Choose an Engine"); ?></label>
-												<i class="fa fa-question-circle fpbx-help-icon" data-for="engine">Only select Engine that point to a NodeJS interpreter</i>
+												<i class="fa fa-question-circle fpbx-help-icon" data-for="engine"></i>
 											</div>
 											<div class="col-md-9">
 												<?php if( !isset($tts_agi_error) ) { ?>
@@ -213,35 +212,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<span id="engine-help" class="help-block fpbx-help-block"><?php echo _("List of TTS engine detected on the server. Choose the one you want to use for the current sentence."); ?></span>
-								</div>
-							</div>
-						</div>
-						<div class="element-container">
-							<div class="row">
-								<div class="col-md-9">
-									<div class="row">
-										<div class="form-group">
-											<div class="col-md-3">
-												<label class="control-label" for="goto"><?php echo _("Destintation"); ?></label>
-												<i class="fa fa-question-circle fpbx-help-icon" data-for="goto"></i>
-											</div>
-											<div class="col-md-9">
-												<?php
-												if (isset($goto)) {
-													echo drawselects($goto,0,false,true,null,true);
-												} else {
-													echo drawselects(null, 0,false,true,null,true);
-												}
-												?>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<span id="goto-help" class="help-block fpbx-help-block"><?php echo _("After the Text to Speech was played go to"); ?></span>
+									<span id="engine-help" class="help-block fpbx-help-block"><?php echo _("Only select Engine that point to a NodeJS interpreter."); ?></span>
 								</div>
 							</div>
 						</div>

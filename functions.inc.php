@@ -106,8 +106,6 @@ function saymyname_del($p_id) {
 	return $stmt->execute(array($p_id));
 }
 
-saymyname_add($vars['name'], $vars['text_IT'], $goto, $vars['textnotfound_IT'], $vars['text_EN'], $vars['textnotfound_EN'], $vars['engine']);
-
 function saymyname_add($p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, $p_engine) {
 	global $db;
 
@@ -123,7 +121,7 @@ function saymyname_add($p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text
 	$results = sql(	"INSERT INTO saymyname SET name=".sql_formattext($p_name) .
 					" , text_IT=".sql_formattext($p_text_it).", goto=".sql_formattext($p_goto) .
 					" , textnotfound_IT=".sql_formattext($p_textnotfound_it) .
-					" , text_EN=".sql_formattext($p_textnotfound_en) .
+					" , text_EN=".sql_formattext($p_text_en) .
 					" , textnotfound_EN=".sql_formattext($p_textnotfound_en) .
 					" , engine=".sql_formattext($p_engine));
 
@@ -134,7 +132,7 @@ function saymyname_update($p_id, $p_name, $p_text_it, $p_goto, $p_textnotfound_i
 	$results = sql(	"UPDATE saymyname SET name=".sql_formattext($p_name) .
 					", text_IT=".sql_formattext($p_text_it).", goto=".sql_formattext($p_goto) .
 					", textnotfound_IT=".sql_formattext($p_textnotfound_it) .
-					", text_EN=".sql_formattext($p_textnotfound_en) .
+					", text_EN=".sql_formattext($p_text_en) .
 					", textnotfound_EN=".sql_formattext($p_textnotfound_en) .
 					", engine=".sql_formattext($p_engine)." WHERE id=".$p_id);
 }

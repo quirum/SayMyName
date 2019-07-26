@@ -13,6 +13,7 @@ $script_dir = "/var/www/html/admin/modules/saymyname/assets";
 debug("SayMyName AGI Started", 1);
 debug("Credential: $script_dir/config.json");
 putenv("GOOGLE_APPLICATION_CREDENTIALS=$script_dir/config.json"); 
+
 $text_it = $argv[1];
 $textnotfound_it = $argv[2];
 
@@ -46,7 +47,7 @@ if($tts_lang == 'IT'){
 	$textnotfound = $textnotfound_en;
 }
 
-$sql = "select fname,lname FROM contactmanager_entry_numbers INNER JOIN contactmanager_group_entries ON entryid=contactmanager_group_entries.id where number = '{$callerid}';";
+$sql = "select `fname`,`lname` FROM contactmanager_entry_numbers INNER JOIN contactmanager_group_entries ON entryid=contactmanager_group_entries.id where `number` = '{$callerid}';";
 $row = $db->sql($sql,'ASSOC');
 debug($db->numrows);
 
@@ -152,7 +153,8 @@ if ( !file_exists($wavefile) ) {
 		break;
 	}}
 if(file_exists($tmpwavefile)) {
-	exec("$script_dir/mix.sh 1 $tmpwavefile $soundfile 50 $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -t raw $wavefile");
+	exec("$script_dir/mix.sh 1 $tmpwavefile $soundfile 50 $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
+	debug("$script_dir/mix.sh 1 $tmpwavefile $soundfile 50 $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
 	unlink($tmpwavefile);
 	unlink($tmpwavefile_mixed);
 }
