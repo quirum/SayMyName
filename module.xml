@@ -1,7 +1,7 @@
 <module>
 	<rawname>saymyname</rawname>
 	<name>Say My Name</name>
-	<version>1.2.4</version>
+	<version>1.2.5</version>
 	<repo>extended</repo>
 	<publisher>Quirum srl</publisher>
 	<license>GPLv3+</license>
