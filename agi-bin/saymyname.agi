@@ -20,8 +20,10 @@ $textnotfound_it = $argv[2];
 $text_en = $argv[3];
 $textnotfound_en = $argv[4];
 
-$engine = $argv[5];
-$enginebin = $argv[6];
+$moh = $argv[5];
+
+$engine = $argv[6];
+$enginebin = $argv[7];
 // $engine = 'googletts';
 // $enginebin = '/usr/bin/node';
 
@@ -153,8 +155,8 @@ if ( !file_exists($wavefile) ) {
 		break;
 	}}
 if(file_exists($tmpwavefile)) {
-	exec("$script_dir/mix.sh 1 $tmpwavefile $soundfile 50 $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
-	debug("$script_dir/mix.sh 1 $tmpwavefile $soundfile 50 $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
+	exec("$script_dir/mix.sh 10 $tmpwavefile $soundfile 0 0 $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
+	debug("$script_dir/mix.sh 10 $tmpwavefile $soundfile 0 0 $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
 	unlink($tmpwavefile);
 	unlink($tmpwavefile_mixed);
 }

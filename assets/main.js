@@ -27,7 +27,7 @@ else
 
 // Construct the request
 const request = {
-	input: {text: text},
+	input: { ssml: "<speak>"+text+"</speak>" },   //text: text},
      	// Select the language and SSML Voice Gender (optional)
        	//voice: {languageCode: 'pt-BR', ssmlGender: 'en-US-Wavenet-F'},
         voice: voice,

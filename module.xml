@@ -15,10 +15,12 @@
 	<depends>
 		<engine>asterisk ge 1.6</engine>
 		<module>ttsengines</module>
+		<module>core ge 12.0.16</module>
 		<version>13.0.154</version>
 	</depends>
 	<location>release/2.11/tts-2.11.0.7.tgz</location>
 	<changelog>
+		*1.2.5*	 Add Music Customization
 		*1.2.4*  Bug Fix
 		*1.2.3*  SayMyName went in America
 		*1.2.2*  Fix npm install -g again

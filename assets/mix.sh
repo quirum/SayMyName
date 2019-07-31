@@ -1,30 +1,48 @@
 #! /bin/bash
 
-SILENCE_SEC=$1 # Silent second at start
+SILENCE_SEC=$1 # Retard message second at start
 SPEECH=$2 # Voice Speech
 SOUND=$3 # Background music
-DROP_SEC=$4 # After many second drop music
-WAV_OUT=$5
+DROP_SEC=$4 # After many second drop music (max 59 sec)
+FADE_TIME=$5 # How long fade out (max 59 sec)
+WAV_OUT=$6 # Name of output file
+
 
 # Generate silence
-ffmpeg -f lavfi -i anullsrc=channel_layout=5.1:sample_rate=48000 -t $SILENCE_SEC -y silence_$SILENCE_SEC.wav
+if [ "$SILENCE_SEC" -ne "0" ]; then
+    ffmpeg -f lavfi -i anullsrc=channel_layout=5.1:sample_rate=48000 -t $SILENCE_SEC -y silence_$SILENCE_SEC.wav
+    # Retard Voice
+    ffmpeg -i silence_$SILENCE_SEC.wav -i $SPEECH  -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' -y retarded_$SPEECH
+else
+    cp $SPEECH retarded_$SPEECH
+fi
 
 # Overlap Music and Voice
-ffmpeg -i $SPEECH -i $SOUND -filter_complex amix=inputs=2:duration=longest -y tmp_out_merge.wav
+if [ "$SOUND" -ne "0" ]; then
+    ffmpeg -i retarded_$SPEECH -i $SOUND -filter_complex amix=inputs=2:duration=longest -y tmp_out_merge.wav
+else
+    cp retarded_$SPEECH tmp_out_merge.wav
+fi
 
 # Drop Merged Message
-ffmpeg -i tmp_out_merge.wav -c copy -t 00:00:$DROP_SEC.0 -y tmp_out_crop.wav
+if [ "$DROP_SEC" -ne "0" ]; then
 
-# Fade Out dropped message
-FADE_OUT_L="0:3"
-LENGTH=`soxi -d tmp_out_crop.wav`
-echo $LENGTH
-sox tmp_out_crop.wav tmp_out_fade.wav fade 0 $LENGTH $FADE_OUT_L
+    ffmpeg -i tmp_out_merge.wav -c copy -t 00:00:$DROP_SEC.0 -y tmp_out_crop.wav
 
-# Concat all file
-ffmpeg -i silence_$SILENCE_SEC.wav -i tmp_out_fade.wav  -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' -y $WAV_OUT
+    # Fade Out dropped message
+    if [ "$FADE_TIME" -eq "0" ]; then
+        cp tmp_out_crop.wav $WAV_OUT
+    else
+        FADE_OUT_L="0:$FADE_TIME"
+        LENGTH=`soxi -d tmp_out_crop.wav`
+        sox tmp_out_crop.wav $WAV_OUT fade 0 $LENGTH $FADE_OUT_L
+    fi
+else
+    cp tmp_out_merge.wav $WAV_OUT
+fi
 
 rm silence_*.wav
+rm retarded_*.wav
 rm tmp_*.wav
 
 # ffmpeg -i google.wav -i MoHNewElfin.wav -filter_complex amix=inputs=2:duration=shortest output2.wav

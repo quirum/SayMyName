@@ -27,6 +27,11 @@ $cols = array (
 	'textnotfound_EN' => array (
 		'type' => 'text'
 	),
+	'music' => array (
+		'type' => 'string',
+		'length' => '100',
+		'notnull' => false,
+	),
 	'engine' => array (
 		'type' => 'string',
 		'length' => '50',
