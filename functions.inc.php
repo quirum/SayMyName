@@ -62,10 +62,10 @@ function saymyname_get_config($p_var) {
 					$ttsid = $tts['id'];
 					$ttsname= $tts['name'];
 					$ttstext_it = $tts['text_IT'];
-					$ttstext_en = $tts['text_IT'];
+					$ttstext_en = $tts['text_EN'];
 					$ttsgoto = $tts['goto'];
 					$textnotfound_it = $tts['textnotfound_IT'];
-					$textnotfound_en = $tts['textnotfound_IT'];
+					$textnotfound_en = $tts['textnotfound_EN'];
 					$silence_t = $tts['silence_t'];
 					$drop_t = $tts['drop_t'];
 					$fade_t = $tts['fade_t'];

@@ -57,7 +57,7 @@ if($tts_lang === 'IT'){
 
 $sql = "select `fname`,`lname` FROM contactmanager_entry_numbers INNER JOIN contactmanager_group_entries ON entryid=contactmanager_group_entries.id where `number` = '{$callerid}';";
 $row = $db->sql($sql,'ASSOC');
-debug($db->numrows);
+debug( "Number in contact manager with this number: " . $db->numrows);
 
 
 if ($db->numrows > 0) {
@@ -67,7 +67,7 @@ if ($db->numrows > 0) {
 	$text = $textnotfound;
 }
 
-$hash = md5($text);
+$hash = md5($text.$silence_t.$drop_t.$fade_t.$moh.$engine);
 debug("Text: $text", 1);
 
 $f = $AGI->get_full_variable('${CHANNEL(audionativeformat)}');
@@ -137,7 +137,7 @@ debug("Generated WAV file: $wavefile", 3);
 $textfile = $soundsdir."/$engine-tts-$hash.txt";
 debug("TXT file: $textfile", 3);
 
-$soundfile = $soundsdir."/MoHNewElfin.wav";
+$soundfile = $moh? $soundsdir."/BGSound.wav" : null;
 
 if ( !file_exists($wavefile) ) {
 	debug("Text to speech wave file doesnt exist, lets create it.", 1);
@@ -163,11 +163,16 @@ if ( !file_exists($wavefile) ) {
 	}}
 if(file_exists($tmpwavefile)) {
 	// $soundfile = $moh != null ? $moh : $soundfile;
-	
-	exec("$script_dir/mix.sh $silence_t $tmpwavefile $soundfile $drop_t $fade_t $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
-	debug("$script_dir/mix.sh $silence_t $tmpwavefile $soundfile $drop_t $fade_t $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
+	if($soundfile != null) {
+		exec("$script_dir/mix.sh $silence_t $tmpwavefile $soundfile $drop_t $fade_t $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
+		debug("$script_dir/mix.sh $silence_t $tmpwavefile $soundfile $drop_t $fade_t $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");	
+		unlink($tmpwavefile_mixed);
+	} else {
+		exec("sox $tmpwavefile -q -r ".$format['rate']." -c1 -t raw $wavefile");
+		debug("sox $tmpwavefile -q -r ".$format['rate']." -c1 -t raw $wavefile");	
+	}
 	unlink($tmpwavefile);
-	unlink($tmpwavefile_mixed);
+	
 }
 
 if(file_exists($wavefile)) {

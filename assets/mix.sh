@@ -12,16 +12,16 @@ WAV_OUT=$6 # Name of output file
 if [ "$SILENCE_SEC" -ne "0" ]; then
     ffmpeg -f lavfi -i anullsrc=channel_layout=5.1:sample_rate=48000 -t $SILENCE_SEC -y silence_$SILENCE_SEC.wav
     # Retard Voice
-    ffmpeg -i silence_$SILENCE_SEC.wav -i $SPEECH  -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' -y retarded_$SPEECH
+    ffmpeg -i silence_$SILENCE_SEC.wav -i $SPEECH  -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' -y ${SPEECH}_retarded.wav
 else
-    cp $SPEECH retarded_$SPEECH
+    cp $SPEECH ${SPEECH}_retarded.wav
 fi
 
 # Overlap Music and Voice
-if [ "$SOUND" -ne "0" ]; then
-    ffmpeg -i retarded_$SPEECH -i $SOUND -filter_complex amix=inputs=2:duration=longest -y tmp_out_merge.wav
+if [ "$SOUND" != "no_sound" ]; then
+    ffmpeg -i ${SPEECH}_retarded.wav -i $SOUND -filter_complex amix=inputs=2:duration=longest -y tmp_out_merge.wav
 else
-    cp retarded_$SPEECH tmp_out_merge.wav
+    cp ${SPEECH}_retarded.wav tmp_out_merge.wav
 fi
 
 # Drop Merged Message
@@ -41,8 +41,8 @@ else
     cp tmp_out_merge.wav $WAV_OUT
 fi
 
-rm silence_*.wav
-rm retarded_*.wav
+rm silence_$SILENCE_SEC.wav
+rm ${SPEECH}_retarded.wav
 rm tmp_*.wav
 
 # ffmpeg -i google.wav -i MoHNewElfin.wav -filter_complex amix=inputs=2:duration=shortest output2.wav
