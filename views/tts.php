@@ -161,6 +161,7 @@
 													<?php
 													$default = (isset($music) ? $music : '');
 													foreach ($music_list as $tresult) {
+														var_dump($tresult);
 														$searchvalue="$tresult";
 														$ttext = $tresult;
 														if($tresult == 'none') $ttext = _("none");

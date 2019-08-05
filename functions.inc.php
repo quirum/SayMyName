@@ -74,10 +74,10 @@ function saymyname_get_config($p_var) {
 					$ttspath = ttsng_get_ttsengine_path($ttsengine);
 					$ext->add($contextname, $ttsid, '', new ext_noop('TTS SayMyName: '.$ttsname));
 					$ext->add($contextname, $ttsid, '', new ext_answer());
-					$ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext_it.'","'.$textnotfound_it.'",\
-																	"'.$ttstext_en.'","'.$textnotfound_en.'",\
-																	'.$silence_t.','.$drop_t.','.$fade_t.',\
-																	'.$moh.','.$ttsengine.','.$ttspath['path']));
+					$ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext_it.'","'.$textnotfound_it.'",' .
+																	'"'.$ttstext_en.'","'.$textnotfound_en.'",' .
+																	$silence_t.','.$drop_t.','.$fade_t.',' .
+																	$moh.','.$ttsengine.','.$ttspath['path']));
 					$ext->add($contextname, $ttsid, '', new ext_goto($ttsgoto));
 				}
 			}
@@ -101,8 +101,7 @@ function saymyname_list() {
 function saymyname_get($p_id) {
 	global $db;
 
-	$sql = "SELECT id, name, text_IT, goto, textnotfound_IT, text_EN, textnotfound_EN, \
-			silence_t, drop_t, fade_t, music, engine FROM saymyname WHERE id=$p_id";
+	$sql = "SELECT id, name, text_IT, goto, textnotfound_IT, text_EN, textnotfound_EN, silence_t, drop_t, fade_t, music, engine FROM saymyname WHERE id=$p_id";
 	$res = $db->getRow($sql, DB_FETCHMODE_ASSOC);
 	return $res;
 }
