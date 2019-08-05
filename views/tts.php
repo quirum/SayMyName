@@ -149,6 +149,13 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="row">
+										<h3 class="text-center">Backgorund Music in /var/lib/asterisk/sound/ttsng/BGSound.wav</h3>
+									</div>
+								</div>
+							</div>
+							<!-- <div class="row">
+								<div class="col-md-12">
+									<div class="row">
 										<div class="form-group">
 											<div class="col-md-3">
 												<label class="control-label" for="music"><?php echo _("Background Music") ?></label>
@@ -159,14 +166,17 @@
 												<?php if( !isset($tts_agi_error) ) { ?>
 												<select name="music" id="music" class="form-control">
 													<?php
-													$default = (isset($music) ? $music : '');
-													foreach ($music_list as $tresult) {
-														var_dump($tresult);
-														$searchvalue="$tresult";
-														$ttext = $tresult;
-														if($tresult == 'none') $ttext = _("none");
-														if($tresult == 'default') $ttext = _("default");
-														$mohhtml .= '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$ttext;
+													array_unshift($music_list,'inherit');
+													$default = (isset($music) ? $music : 'inherit');
+													if (isset($music_list) && is_array($music_list)) {
+														foreach ($music_list as $tresult) {
+															$searchvalue="$tresult";
+															$ttext = $tresult;
+															if($tresult == 'inherit') $ttext = _("inherit");
+															if($tresult == 'none') $ttext = _("none");
+															if($tresult == 'default') $ttext = _("default");
+															echo '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$ttext;
+														}
 													}
 													?>
 												</select>
@@ -182,7 +192,7 @@
 								<div class="col-md-12">
 									<span id="music-help" class="help-block fpbx-help-block"><?php echo _("Background Music overlapped with voice message. Pay attention that music is used as is .") ?></span>
 								</div>
-							</div>
+							</div> -->
 
 							<div class="row">
 								<div class="col-md-9">

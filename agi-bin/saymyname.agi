@@ -162,7 +162,7 @@ if ( !file_exists($wavefile) ) {
 		break;
 	}}
 if(file_exists($tmpwavefile)) {
-	$soundfile = $moh != null ? $moh : $soundfile;
+	// $soundfile = $moh != null ? $moh : $soundfile;
 	
 	exec("$script_dir/mix.sh $silence_t $tmpwavefile $soundfile $drop_t $fade_t $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
 	debug("$script_dir/mix.sh $silence_t $tmpwavefile $soundfile $drop_t $fade_t $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
