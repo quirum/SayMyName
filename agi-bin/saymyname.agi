@@ -20,10 +20,14 @@ $textnotfound_it = $argv[2];
 $text_en = $argv[3];
 $textnotfound_en = $argv[4];
 
-$moh = $argv[5];
+$silence_t = $argv[5];
+$drop_t = $argv[6];
+$fade_t = $argv[7];
 
-$engine = $argv[6];
-$enginebin = $argv[7];
+$moh = $argv[8];
+
+$engine = $argv[9];
+$enginebin = $argv[10];
 // $engine = 'googletts';
 // $enginebin = '/usr/bin/node';
 
@@ -41,7 +45,9 @@ if(substr( $callerid, 0, 2 ) === "00" || substr( $callerid, 0, 1 ) === "+"){
 		$tts_lang = 'EN';
 }
 
-if($tts_lang == 'IT'){
+$text = "";
+
+if($tts_lang === 'IT'){
 	$text = $text_it;
 	$textnotfound = $textnotfound_it;
 } else {
@@ -52,6 +58,7 @@ if($tts_lang == 'IT'){
 $sql = "select `fname`,`lname` FROM contactmanager_entry_numbers INNER JOIN contactmanager_group_entries ON entryid=contactmanager_group_entries.id where `number` = '{$callerid}';";
 $row = $db->sql($sql,'ASSOC');
 debug($db->numrows);
+
 
 if ($db->numrows > 0) {
         $text = str_replace("%n", $row[0]["fname"], $text);
@@ -155,8 +162,10 @@ if ( !file_exists($wavefile) ) {
 		break;
 	}}
 if(file_exists($tmpwavefile)) {
-	exec("$script_dir/mix.sh 10 $tmpwavefile $soundfile 0 0 $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
-	debug("$script_dir/mix.sh 10 $tmpwavefile $soundfile 0 0 $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
+	$soundfile = $moh != null ? $moh : $soundfile;
+	
+	exec("$script_dir/mix.sh $silence_t $tmpwavefile $soundfile $drop_t $fade_t $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
+	debug("$script_dir/mix.sh $silence_t $tmpwavefile $soundfile $drop_t $fade_t $tmpwavefile_mixed && sox $tmpwavefile_mixed -q -r ".$format['rate']." -c1 -t raw $wavefile");
 	unlink($tmpwavefile);
 	unlink($tmpwavefile_mixed);
 }

@@ -55,7 +55,7 @@
 									<div class="row">
 										<div class="form-group">
 											<div class="col-md-3">
-												<label class="control-label" for="name"><?php echo _("Text IT"); ?></label>
+												<label class="control-label" for="text_IT"><?php echo _("Text IT"); ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="text_IT"></i>
 											</div>
 											<div class="col-md-9">
@@ -67,7 +67,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<span id="text-help" class="help-block fpbx-help-block"><?php echo _("Enter the text you want to synthetize.\nYou can use: %n for name and %s for surname in the text"); ?></span>
+									<span id="text_IT-help" class="help-block fpbx-help-block"><?php echo _("Enter the text you want to synthetize.\nYou can use: %n for name and %s for surname in the text"); ?></span>
 								</div>
 							</div>
 							<div class="row">
@@ -75,7 +75,7 @@
 									<div class="row">
 										<div class="form-group">
 											<div class="col-md-3">
-												<label class="control-label" for="name"><?php echo _("Text not found IT"); ?></label>
+												<label class="control-label" for="textnotfound_IT"><?php echo _("Text not found IT"); ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="textnotfound_IT"></i>
 											</div>
 											<div class="col-md-9">
@@ -87,7 +87,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<span id="textnotfound-help" class="help-block fpbx-help-block"><?php echo _("Enter the text if caller not found."); ?></span>
+									<span id="textnotfound_IT-help" class="help-block fpbx-help-block"><?php echo _("Enter the text if caller not found."); ?></span>
 								</div>
 							</div>
 						</div>
@@ -103,7 +103,7 @@
 									<div class="row">
 										<div class="form-group">
 											<div class="col-md-3">
-												<label class="control-label" for="name"><?php echo _("Text EN"); ?></label>
+												<label class="control-label" for="text_EN"><?php echo _("Text EN"); ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="text_EN"></i>
 											</div>
 											<div class="col-md-9">
@@ -115,7 +115,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<span id="text-help" class="help-block fpbx-help-block"><?php echo _("Enter the text you want to synthetize.\nYou can use: %n for name and %s for surname in the text"); ?></span>
+									<span id="text_EN-help" class="help-block fpbx-help-block"><?php echo _("Enter the text you want to synthetize.\nYou can use: %n for name and %s for surname in the text"); ?></span>
 								</div>
 							</div>
 							<div class="row">
@@ -123,7 +123,7 @@
 									<div class="row">
 										<div class="form-group">
 											<div class="col-md-3">
-												<label class="control-label" for="name"><?php echo _("Text not found EN"); ?></label>
+												<label class="control-label" for="textnotfound_EN"><?php echo _("Text not found EN"); ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="textnotfound_EN"></i>
 											</div>
 											<div class="col-md-9">
@@ -135,16 +135,140 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<span id="textnotfound-help" class="help-block fpbx-help-block"><?php echo _("Enter the text if caller not found."); ?></span>
+									<span id="textnotfound_EN-help" class="help-block fpbx-help-block"><?php echo _("Enter the text if caller not found."); ?></span>
 								</div>
 							</div>
 						</div>
 					</div>	
 					<?php // End ENG Message ?>
+
+					<?php // Music on Hold ?>
+					<div class="section-title" data-for="section4"><h3><i class="fa fa-minus"></i><?php echo _("Output Settings"); ?></h3></div>
+					<div class="section" data-id="section4">
+						<div class="element-container">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-3">
+												<label class="control-label" for="music"><?php echo _("Background Music") ?></label>
+												<i class="fa fa-question-circle fpbx-help-icon" data-for="music"></i>
+											</div>
+											
+											<div class="col-md-9">
+												<?php if( !isset($tts_agi_error) ) { ?>
+												<select name="music" id="music" class="form-control">
+													
+													<?php
+														foreach ($music_list as $m) {
+															var_dump($m);
+																if ($e['name'] == $engine) {
+																	echo '<option value="' . $e['name'] . '" selected>' . $e['name'] . '</option>';
+																} else {
+																	echo '<option value="' . $e['name'] . '">' . $e['name'] . '</option>';
+																}
+														}
+													?>
+													<!-- $tresults = music_list();
+													array_unshift($tresults,'inherit');
+													$default = (isset($music) ? $music : 'inherit');
+													if (isset($tresults) && is_array($tresults)) {
+														foreach ($tresults as $tresult) {
+															$searchvalue="$tresult";
+															$ttext = $tresult;
+															if($tresult == 'inherit') $ttext = _("inherit");
+															if($tresult == 'none') $ttext = _("none");
+															if($tresult == 'default') $ttext = _("default");
+															$mohhtml .= '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$ttext;
+														}
+													} -->
+												</select>
+												<span class="radioset input-group">
+													<input type="radio" id="rtone-no" name="rtone" value="0" <?php echo ($rtone=='0'? 'checked': '') ?>><label for="rtone-no"><?php echo _('MoH Only') ?></label>
+												</span>
+												<?php } else { ?>
+													<i><?php echo $tts_agi_error; ?></i>
+												<?php } ?>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<span id="music-help" class="help-block fpbx-help-block"><?php echo _("Background Music overlapped with voice message. Pay attention that music is used as is .") ?></span>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-9">
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-3">
+												<label class="control-label" for="silence_t"><?php echo _("Voice Delay second"); ?></label>
+												<i class="fa fa-question-circle fpbx-help-icon" data-for="silence_t"></i>
+											</div>
+											<div class="col-md-9">
+												<div class="col-md-9"><input type="number" class="form-control" name="silence_t" value="<?php echo (isset($silence_t) ? $silence_t : '0'); ?>" min="0" max="59"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<span id="silence_t-help" class="help-block fpbx-help-block"><?php echo _("After how many seconds the voice message starts. If 0 no delay."); ?></span>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-9">
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-3">
+												<label class="control-label" for="drop_t"><?php echo _("Cut Message Second"); ?></label>
+												<i class="fa fa-question-circle fpbx-help-icon" data-for="drop_t"></i>
+											</div>
+											<div class="col-md-9">
+												<div class="col-md-9"><input type="number" class="form-control" name="drop_t" value="<?php echo (isset($drop_t) ? $drop_t : '0'); ?>" min="0" max="59"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<span id="drop_t-help" class="help-block fpbx-help-block"><?php echo _("After how many seconds cutting the message. If 0 no cut."); ?></span>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-9">
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-3">
+												<label class="control-label" for="fade_t"><?php echo _("Fade Out Second"); ?></label>
+												<i class="fa fa-question-circle fpbx-help-icon" data-for="fade_t"></i>
+											</div>
+											<div class="col-md-9">
+												<div class="col-md-9"><input type="number" class="form-control" name="fade_t" value="<?php echo (isset($fade_t) ? $fade_t : '0'); ?>" min="0" max="59"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<span id="fade_t-help" class="help-block fpbx-help-block"><?php echo _("In many seconds fade out the message. If 0 no fade out. "); ?></span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<?php //END Music on Hold ?>
 					
 					<?php //Destination ?>
-					<div class="section-title" data-for="section4"><h3><i class="fa fa-minus"></i><?php echo _("Destination"); ?></h3></div>
-					<div class="section" data-id="section4">
+					<div class="section-title" data-for="section5"><h3><i class="fa fa-minus"></i><?php echo _("Destination"); ?></h3></div>
+					<div class="section" data-id="section5">
 						<div class="element-container">
 							<div class="row">
 								<div class="col-md-9">
@@ -176,58 +300,10 @@
 					</div>
 					<?php //END Destination ?>
 
-					<?php //MOH
-					if(function_exists('music_list')) {
-						$mohhtml='
-						<!--Music on Hold Class-->
-						<div class="element-container">
-							<div class="row">
-								<div class="col-md-12">
-									<div class="row">
-										<div class="form-group">
-											<div class="col-md-3">
-												<label class="control-label" for="music">'._("Background Music").'</label>
-												<i class="fa fa-question-circle fpbx-help-icon" data-for="music"></i>
-											</div>
-											<div class="col-md-9">
-												<select name="music" id="music" class="form-control">';
-													$tresults = music_list();
-													array_unshift($tresults,'inherit');
-													$default = (isset($music) ? $music : 'inherit');
-													if (isset($tresults) && is_array($tresults)) {
-														foreach ($tresults as $tresult) {
-															$searchvalue="$tresult";
-															$ttext = $tresult;
-															if($tresult == 'inherit') $ttext = _("inherit");
-															if($tresult == 'none') $ttext = _("none");
-															if($tresult == 'default') $ttext = _("default");
-															$mohhtml .= '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$ttext;
-														}
-													}
-						$mohhtml .='			</select>
-												<span class="radioset input-group">
-													<input type="radio" id="rtone-no" name="rtone" value="0" '. ($rtone=='0'?'checked':'').'><label for="rtone-no">'._('MoH Only').'</label>
-												</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<span id="music-help" class="help-block fpbx-help-block">'._("Background Music overlapped with voice message. Pay attention that music is used as is .").'</span>
-								</div>
-							</div>
-						</div>
-						<!--END Music on Hold Class-->
-						';
-					} 
-					// MOH End ?>
-
 
 					<?php //TTS Engine ?>
-					<div class="section-title" data-for="section5"><h3><i class="fa fa-minus"></i><?php echo _("TTS Engines"); ?></h3></div>
-					<div class="section" data-id="section5">
+					<div class="section-title" data-for="section6"><h3><i class="fa fa-minus"></i><?php echo _("TTS Engines"); ?></h3></div>
+					<div class="section" data-id="section6">
 						<div class="element-container">
 							<div class="row">
 								<div class="col-md-9">

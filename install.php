@@ -27,6 +27,15 @@ $cols = array (
 	'textnotfound_EN' => array (
 		'type' => 'text'
 	),
+	'silence_t' => array (
+		'type' => 'integer'
+	),
+	'drop_t' => array (
+		'type' => 'integer'
+	),
+	'fade_t' => array (
+		'type' => 'integer'
+	),
 	'music' => array (
 		'type' => 'string',
 		'length' => '100',

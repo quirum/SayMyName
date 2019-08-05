@@ -10,11 +10,16 @@ if (!function_exists('ttsengines_get_all_engines')) {
 	return;
 }
 
+if (!function_exists('music_list')) {
+	show_view(__DIR__ . '/views/no-music.php');
+	return;
+}
 
 //this function needs to be available to other modules (those that use goto destinations)
 //therefore we put it in globalfunctions.php
 $data['tts_list'] = saymyname_list();
 $data['engine_list'] = ttsengines_get_all_engines();
+$data['music_list'] = music_list();
 $data['action'] = $_GET['action'];
 
 if ( (isset($amp_conf['ASTVARLIBDIR'])?$amp_conf['ASTVARLIBDIR']:'') == '') {
