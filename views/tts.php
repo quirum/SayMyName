@@ -159,17 +159,13 @@
 												<?php if( !isset($tts_agi_error) ) { ?>
 												<select name="music" id="music" class="form-control">
 													<?php
-													array_unshift($music_list,'inherit');
-													$default = (isset($music) ? $music : 'inherit');
-													if (isset($music_list) && is_array($music_list)) {
-														foreach ($music_list as $tresult) {
-															$searchvalue="$tresult";
-															$ttext = $tresult;
-															if($tresult == 'inherit') $ttext = _("inherit");
-															if($tresult == 'none') $ttext = _("none");
-															if($tresult == 'default') $ttext = _("default");
-															$mohhtml .= '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$ttext;
-														}
+													$default = (isset($music) ? $music : '');
+													foreach ($music_list as $tresult) {
+														$searchvalue="$tresult";
+														$ttext = $tresult;
+														if($tresult == 'none') $ttext = _("none");
+														if($tresult == 'default') $ttext = _("default");
+														$mohhtml .= '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$ttext;
 													}
 													?>
 												</select>

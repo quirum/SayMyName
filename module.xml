@@ -1,7 +1,7 @@
 <module>
 	<rawname>saymyname</rawname>
 	<name>Say My Name</name>
-	<version>1.2.7</version>
+	<version>1.2.8</version>
 	<repo>extended</repo>
 	<publisher>Quirum srl</publisher>
 	<license>GPLv3+</license>
@@ -20,6 +20,7 @@
 	</depends>
 	<location>release/2.11/tts-2.11.0.7.tgz</location>
 	<changelog>
+		*1.2.8*	 Fix MoH2
 		*1.2.7*	 Fix MoH
 		*1.2.6*	 Add Music/Voice Fields
 		*1.2.5*	 Add Music Customization
