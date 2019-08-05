@@ -158,22 +158,11 @@
 											<div class="col-md-9">
 												<?php if( !isset($tts_agi_error) ) { ?>
 												<select name="music" id="music" class="form-control">
-													
 													<?php
-														foreach ($music_list as $m) {
-															var_dump($m);
-																if ($e['name'] == $engine) {
-																	echo '<option value="' . $e['name'] . '" selected>' . $e['name'] . '</option>';
-																} else {
-																	echo '<option value="' . $e['name'] . '">' . $e['name'] . '</option>';
-																}
-														}
-													?>
-													<!-- $tresults = music_list();
-													array_unshift($tresults,'inherit');
+													array_unshift($music_list,'inherit');
 													$default = (isset($music) ? $music : 'inherit');
-													if (isset($tresults) && is_array($tresults)) {
-														foreach ($tresults as $tresult) {
+													if (isset($music_list) && is_array($music_list)) {
+														foreach ($music_list as $tresult) {
 															$searchvalue="$tresult";
 															$ttext = $tresult;
 															if($tresult == 'inherit') $ttext = _("inherit");
@@ -181,11 +170,9 @@
 															if($tresult == 'default') $ttext = _("default");
 															$mohhtml .= '<option value="'.$tresult.'" '.($searchvalue == $default ? 'SELECTED' : '').'>'.$ttext;
 														}
-													} -->
+													}
+													?>
 												</select>
-												<span class="radioset input-group">
-													<input type="radio" id="rtone-no" name="rtone" value="0" <?php echo ($rtone=='0'? 'checked': '') ?>><label for="rtone-no"><?php echo _('MoH Only') ?></label>
-												</span>
 												<?php } else { ?>
 													<i><?php echo $tts_agi_error; ?></i>
 												<?php } ?>
