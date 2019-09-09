@@ -90,6 +90,47 @@
 									<span id="textnotfound_IT-help" class="help-block fpbx-help-block"><?php echo _("Enter the text if caller not found."); ?></span>
 								</div>
 							</div>
+
+							<div class="row">
+								<div class="col-md-9">
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-3">
+												<label class="control-label" for="textbusy_IT"><?php echo _("Text Busy IT"); ?></label>
+												<i class="fa fa-question-circle fpbx-help-icon" data-for="textbusy_IT"></i>
+											</div>
+											<div class="col-md-9">
+												<textarea name="textbusy_IT" class="form-control" cols=50 rows=5 required><?php echo (isset($textbusy_IT) ? $textbusy_IT : ''); ?></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<span id="textbusy_IT-help" class="help-block fpbx-help-block"><?php echo _("Enter the text if caller is not available."); ?></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-9">
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-3">
+												<label class="control-label" for="textbusyNF_IT"><?php echo _("Text Busy not found IT"); ?></label>
+												<i class="fa fa-question-circle fpbx-help-icon" data-for="textbusyNF_IT"></i>
+											</div>
+											<div class="col-md-9">
+												<textarea name="textbusyNF_IT" class="form-control" cols=50 rows=5 required><?php echo (isset($textbusyNF_IT) ? $textbusyNF_IT : ''); ?></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<span id="textbusyNF_IT-help" class="help-block fpbx-help-block"><?php echo _("Enter the text if caller is not available and caller not found."); ?></span>
+								</div>
+							</div>
 						</div>
 					</div>
 					<?php // End IT Message ?>
@@ -138,6 +179,47 @@
 									<span id="textnotfound_EN-help" class="help-block fpbx-help-block"><?php echo _("Enter the text if caller not found."); ?></span>
 								</div>
 							</div>
+
+							<div class="row">
+								<div class="col-md-9">
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-3">
+												<label class="control-label" for="textbusy_EN"><?php echo _("Text Busy EN"); ?></label>
+												<i class="fa fa-question-circle fpbx-help-icon" data-for="textbusy_EN"></i>
+											</div>
+											<div class="col-md-9">
+												<textarea name="textbusy_EN" class="form-control" cols=50 rows=5 required><?php echo (isset($textbusy_EN) ? $textbusy_EN : ''); ?></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<span id="textbusy_EN-help" class="help-block fpbx-help-block"><?php echo _("Enter the text if caller is not available."); ?></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-9">
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-3">
+												<label class="control-label" for="textbusyNF_EN"><?php echo _("Text Busy not found EN"); ?></label>
+												<i class="fa fa-question-circle fpbx-help-icon" data-for="textbusyNF_EN"></i>
+											</div>
+											<div class="col-md-9">
+												<textarea name="textbusyNF_EN" class="form-control" cols=50 rows=5 required><?php echo (isset($textbusyNF_EN) ? $textbusyNF_EN : ''); ?></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<span id="textbusyNF_EN-help" class="help-block fpbx-help-block"><?php echo _("Enter the text if caller is not available and caller not found."); ?></span>
+								</div>
+							</div>
 						</div>
 					</div>	
 					<?php // End ENG Message ?>
@@ -149,8 +231,14 @@
 							<div class="row">
 								<div class="col-md-12">
 									<div class="row">
-										<h3 class="text-center">Backgorund Music in /var/lib/asterisk/sound/ttsng/BGSound.wav</h3>
-										<input type="checkbox" name="music" id="music" class="form-control" value="<?php echo (isset($music) ? $music : '0'); ?>">
+										<h3 class="<?php //text-center ?>">Backgorund Music in /var/lib/asterisk/sound/ttsng/BGSound.wav</h3>
+										<input type="checkbox" name="music" id="music" class="form-control" value="<?php echo (isset($music) ? $music : 1); ?>" 
+										<?php 
+											if(isset($music) && $music || !isset($music))
+												echo "checked";
+											else
+												echo  ""; 
+										?> >
 									</div>
 								</div>
 							</div>

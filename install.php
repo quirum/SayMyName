@@ -27,6 +27,18 @@ $cols = array (
 	'textnotfound_EN' => array (
 		'type' => 'text'
 	),
+	'textbusy_EN' => array (
+		'type' => 'text'
+	),
+	'textbusy_IT' => array (
+		'type' => 'text'
+	),
+	'textbusyNF_EN' => array (
+		'type' => 'text'
+	),
+	'textbusyNF_IT' => array (
+		'type' => 'text'
+	),
 	'silence_t' => array (
 		'type' => 'integer'
 	),
@@ -37,7 +49,8 @@ $cols = array (
 		'type' => 'integer'
 	),
 	'music' => array (
-		'type' => 'integer'
+		'type' => 'integer',
+		'notnull' => false,
 	),
 	'engine' => array (
 		'type' => 'string',

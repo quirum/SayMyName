@@ -66,19 +66,42 @@ function saymyname_get_config($p_var) {
 					$ttsgoto = $tts['goto'];
 					$textnotfound_it = $tts['textnotfound_IT'];
 					$textnotfound_en = $tts['textnotfound_EN'];
+					$textbusy_it = $tts['textbusy_IT'];
+					$textbusy_en = $tts['textbusy_EN'];
+					$textbusynf_it = $tts['textbusyNF_IT'];
+					$textbusynf_en = $tts['textbusyNF_EN'];
 					$silence_t = $tts['silence_t'];
 					$drop_t = $tts['drop_t'];
 					$fade_t = $tts['fade_t'];
-					$moh = $tts['music'];
+					$music = $tts['music'];
 					$ttsengine = $tts['engine'];
 					$ttspath = ttsng_get_ttsengine_path($ttsengine);
 					$ext->add($contextname, $ttsid, '', new ext_noop('TTS SayMyName: '.$ttsname));
-					$ext->add($contextname, $ttsid, '', new ext_answer());
+
+					$ext->add($contextname, $ttsid, '', new ext_chanisavail('SIP/${EXTEN:8:3}','s'));
+					
+					$ext->add($contextname, $ttsid, '', new ext_noop_trace('AVAILCHAN: ${AVAILCHAN}, AVAILORIGCHAN: ${AVAILORIGCHAN}, AVAILSTATUS: ${AVAILSTATUS}',5));
+			  		
+					//$ext->add($contextname, $ttsid, '', new ext_gotoif('$["${AVAILCAUSECODE}" != "3"]', 'answertts'));
+
+					// Busy part
+					// $ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext_it.'","'.$textnotfound_it.'",' .
+					// 												'"'.$ttstext_en.'","'.$textnotfound_en.'",' .
+					// 												$silence_t.','.$drop_t.','.$fade_t.',' .
+					// 												$music.','.$ttsengine.','.$ttspath['path']));
+					
+					// $ext->add($contextname, $ttsid, '', new ext_goto("nextstep")); // jump to end
+					
+					// CALLED is available
+					$ext->add($contextname, $ttsid, 'answertts', new ext_answer());
 					$ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext_it.'","'.$textnotfound_it.'",' .
 																	'"'.$ttstext_en.'","'.$textnotfound_en.'",' .
+																	'"'.$textbusy_it.'","'.$textbusy_en.'",' .
+																	'"'.$textbusynf_it.'","'.$textbusynf_en.'", ${AVAILCAUSECODE},' .
 																	$silence_t.','.$drop_t.','.$fade_t.',' .
-																	$moh.','.$ttsengine.','.$ttspath['path']));
-					$ext->add($contextname, $ttsid, '', new ext_goto($ttsgoto));
+																	$music.','.$ttsengine.','.$ttspath['path']));
+
+					$ext->add($contextname, $ttsid, 'nextstep', new ext_goto($ttsgoto));
 				}
 			}
 		break;
@@ -101,7 +124,7 @@ function saymyname_list() {
 function saymyname_get($p_id) {
 	global $db;
 
-	$sql = "SELECT id, name, text_IT, goto, textnotfound_IT, text_EN, textnotfound_EN, silence_t, drop_t, fade_t, music, engine FROM saymyname WHERE id=$p_id";
+	$sql = "SELECT id, name, text_IT, goto, textnotfound_IT, text_EN, textnotfound_EN, textbusy_EN, textbusy_IT, textbusyNF_IT, textbusyNF_EN, silence_t, drop_t, fade_t, music, engine FROM saymyname WHERE id=$p_id";
 	$res = $db->getRow($sql, DB_FETCHMODE_ASSOC);
 	return $res;
 }
@@ -113,8 +136,8 @@ function saymyname_del($p_id) {
 	return $stmt->execute(array($p_id));
 }
 
-function saymyname_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, 
-						$p_silence_t, $p_drop_t, $p_fade_t,	$p_moh, $p_engine) {
+function saymyname_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, $p_textbusy_en, $p_textbusy_it,
+						$p_textbusynf_en, $p_textbusynf_it, $p_silence_t, $p_drop_t, $p_fade_t,	$p_moh, $p_engine) {
 	global $db;
 
 	$tts_list = \FreePBX::SayMyName()->listTTS();
@@ -131,6 +154,10 @@ function saymyname_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_tex
 					" , textnotfound_IT=".sql_formattext($p_textnotfound_it) .
 					" , text_EN=".sql_formattext($p_text_en) .
 					" , textnotfound_EN=".sql_formattext($p_textnotfound_en) .
+					" , textbusy_EN=".sql_formattext($p_textbusy_en) .
+					" , textbusy_IT=".sql_formattext($p_textbusy_it) .
+					" , textbusyNF_EN=".sql_formattext($p_textbusynf_en) .
+					" , textbusyNF_IT=".sql_formattext($p_textbusynf_it) .
 					" , silence_t=".sql_formattext($p_silence_t) .
 					" , drop_t=".sql_formattext($p_drop_t) .
 					" , fade_t=".sql_formattext($p_fade_t) .
@@ -141,12 +168,17 @@ function saymyname_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_tex
 }
 
 function saymyname_update(	$p_id, $p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, 
+							$p_textbusy_en, $p_textbusy_it, $p_textbusynf_en, $p_textbusynf_it, 
 							$p_silence_t, $p_drop_t, $p_fade_t, $p_moh, $p_engine) {
 	$results = sql(	"UPDATE saymyname SET name=".sql_formattext($p_name) .
 					", text_IT=".sql_formattext($p_text_it).", goto=".sql_formattext($p_goto) .
 					", textnotfound_IT=".sql_formattext($p_textnotfound_it) .
 					", text_EN=".sql_formattext($p_text_en) .
 					", textnotfound_EN=".sql_formattext($p_textnotfound_en) .
+					", textbusy_EN=".sql_formattext($p_textbusy_en) .
+					", textbusy_IT=".sql_formattext($p_textbusy_it) .
+					", textbusyNF_EN=".sql_formattext($p_textbusynf_en) .
+					", textbusyNF_IT=".sql_formattext($p_textbusynf_it) .
 					", silence_t=".sql_formattext($p_silence_t) .
 					", drop_t=".sql_formattext($p_drop_t) .
 					", fade_t=".sql_formattext($p_fade_t) .

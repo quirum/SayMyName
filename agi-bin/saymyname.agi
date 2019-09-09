@@ -20,14 +20,20 @@ $textnotfound_it = $argv[2];
 $text_en = $argv[3];
 $textnotfound_en = $argv[4];
 
-$silence_t = $argv[5];
-$drop_t = $argv[6];
-$fade_t = $argv[7];
+$textbusy_en = $argv[5];
+$textbusy_it = $argv[6];
+$textbusynf_en = $argv[7];
+$textbusynf_it = $argv[8];
+$busy_status = $argv[9];
 
-$moh = $argv[8];
+$silence_t = $argv[10];
+$drop_t = $argv[11];
+$fade_t = $argv[12];
 
-$engine = $argv[9];
-$enginebin = $argv[10];
+$moh = $argv[13];
+
+$engine = $argv[14];
+$enginebin = $argv[15];
 // $engine = 'googletts';
 // $enginebin = '/usr/bin/node';
 
@@ -38,8 +44,8 @@ $callerid = $AGI->request['agi_callerid'];
 debug("Number: $callerid", 1);
 
 if(substr( $callerid, 0, 2 ) === "00" || substr( $callerid, 0, 1 ) === "+"){
-	if((substr( $callerid, 0, 2 ) === "00" && substr( $callerid, 2, 4 ) === "39") || 
-			(substr( $callerid, 0, 1 ) === "+" && substr( $callerid, 1, 3 ) === "39"))
+	if((substr( $callerid, 0, 2 ) === "00" && substr( $callerid, 2, 2 ) === "39") || 
+			(substr( $callerid, 0, 1 ) === "+" && substr( $callerid, 1, 2 ) === "39"))
 		$tts_lang = 'IT';
 	else
 		$tts_lang = 'EN';
@@ -53,6 +59,19 @@ if($tts_lang === 'IT'){
 } else {
 	$text = $text_en;
 	$textnotfound = $textnotfound_en;
+}
+
+// Check if channel is busy
+debug("Busy Status: $busy_status",1);
+if($busy_status == 3){
+	if($tts_lang === 'IT'){
+		$text = $textbusy_it;
+		$textnotfound = $textbusynf_it;
+	} else {
+		$text = $textbusy_en;
+		$textnotfound = $textbusynf_en;
+	}
+
 }
 
 $sql = "select `fname`,`lname` FROM contactmanager_entry_numbers INNER JOIN contactmanager_group_entries ON entryid=contactmanager_group_entries.id where `number` = '{$callerid}';";
@@ -137,6 +156,7 @@ debug("Generated WAV file: $wavefile", 3);
 $textfile = $soundsdir."/$engine-tts-$hash.txt";
 debug("TXT file: $textfile", 3);
 
+debug("MOH: $moh");
 $soundfile = $moh? $soundsdir."/BGSound.wav" : null;
 
 if ( !file_exists($wavefile) ) {
