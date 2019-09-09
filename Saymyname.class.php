@@ -33,6 +33,8 @@ class SayMyName extends \FreePBX_Helpers implements \BMO {
 			'textnotfound_EN',
 			'textbusy_EN',
 			'textbusy_IT',
+			'textbusyNF_EN',
+			'textbusyNF_IT',
 			'silence_t',
 			'drop_t',
 			'fade_t',
@@ -54,7 +56,8 @@ class SayMyName extends \FreePBX_Helpers implements \BMO {
 			case "add":
 				$_REQUEST['id'] = \saymyname_add(	$vars['name'], $vars['text_IT'], $goto, $vars['textnotfound_IT'], 
 													$vars['text_EN'], $vars['textnotfound_EN'], 
-													$vars['textbusy_EN'], $vars['textbusy_IT'], $vars['silence_t'],
+													$vars['textbusy_EN'], $vars['textbusy_IT'], 
+													$vars['textbusyNF_EN'], $vars['textbusyNF_IT'], $vars['silence_t'],
 													$vars['drop_t'], $vars['fade_t'], $vars['music'], $vars['engine']);
 				\needreload();
 			break;
@@ -66,7 +69,8 @@ class SayMyName extends \FreePBX_Helpers implements \BMO {
 			case "edit":
 				\saymyname_update(	$vars['id'], $vars['name'], $vars['text_IT'], $goto, $vars['textnotfound_IT'], 
 									$vars['text_EN'], $vars['textnotfound_EN'], 
-									$vars['textbusy_EN'], $vars['textbusy_IT'], $vars['silence_t'],
+									$vars['textbusy_EN'], $vars['textbusy_IT'], 
+									$vars['textbusyNF_EN'], $vars['textbusyNF_IT'], $vars['silence_t'],
 									$vars['drop_t'], $vars['fade_t'], $vars['music'], $vars['engine']);
 				\needreload();
 			break;
