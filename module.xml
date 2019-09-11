@@ -1,7 +1,7 @@
 <module>
 	<rawname>saymyname</rawname>
 	<name>Say My Name</name>
-	<version>1.3.4</version>
+	<version>1.3.5</version>
 	<repo>extended</repo>
 	<publisher>Quirum srl</publisher>
 	<license>GPLv3+</license>
@@ -20,6 +20,7 @@
 	</depends>
 	<location>release/2.11/tts-2.11.0.7.tgz</location>
 	<changelog>
+		*1.3.4*  Bug Fix
 		*1.3.4*  Dial with MoH
 		*1.3.3*  Bug fix
 		*1.3.2*  Busy feature tmp

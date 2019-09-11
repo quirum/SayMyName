@@ -228,7 +228,7 @@
 					<div class="section-title" data-for="section4"><h3><i class="fa fa-minus"></i><?php echo _("Output Settings"); ?></h3></div>
 					<div class="section" data-id="section4">
 						<div class="element-container">
-							<div class="row">
+							<!-- <div class="row">
 								<div class="col-md-12">
 									<div class="row">
 										<h3 class="<?php //text-center ?>">Backgorund Music in /var/lib/asterisk/sound/ttsng/BGSound.wav</h3>
@@ -241,9 +241,9 @@
 										?> >
 									</div>
 								</div>
-							</div>
+							</div> -->
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-9">
 									<div class="row">
 										<div class="form-group">
 											<div class="col-md-3">
