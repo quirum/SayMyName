@@ -23,7 +23,7 @@ function saymyname_destinations() {
 	// return an associative array with destination and description
 	if (isset($results) && $results){
 		foreach($results as $result){
-				$extens[] = array('destination' => 'ext-saymyname,'.$result['id'].',1', 'description' => $result['name']);
+				$extens[] = array('destination' => 'ext-saymyname,'.$result['id'].',', 'description' => $result['name']);
 		}
 
 		return $extens;
@@ -77,30 +77,15 @@ function saymyname_get_config($p_var) {
 					$ttsengine = $tts['engine'];
 					$ttspath = ttsng_get_ttsengine_path($ttsengine);
 					$ext->add($contextname, $ttsid, '', new ext_noop('TTS SayMyName: '.$ttsname));
-
-					$ext->add($contextname, $ttsid, '', new ext_chanisavail('SIP/${EXTEN:8:3}','s'));
-					
-					$ext->add($contextname, $ttsid, '', new ext_noop_trace('AVAILCHAN: ${AVAILCHAN}, AVAILORIGCHAN: ${AVAILORIGCHAN}, AVAILSTATUS: ${AVAILSTATUS}',5));
-			  		
-					//$ext->add($contextname, $ttsid, '', new ext_gotoif('$["${AVAILCAUSECODE}" != "3"]', 'answertts'));
-
-					// Busy part
-					// $ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext_it.'","'.$textnotfound_it.'",' .
-					// 												'"'.$ttstext_en.'","'.$textnotfound_en.'",' .
-					// 												$silence_t.','.$drop_t.','.$fade_t.',' .
-					// 												$music.','.$ttsengine.','.$ttspath['path']));
-					
-					// $ext->add($contextname, $ttsid, '', new ext_goto("nextstep")); // jump to end
-					
-					// CALLED is available
+					$ext->add($contextname, $ttsid, '', new ext_chanisavail('SIP/${CDR(did):-2}'));
+					$ext->add($contextname, $ttsid, '', new ext_noop('AVAILCHAN: ${AVAILCHAN}, AVAILORIGCHAN: ${AVAILORIGCHAN}, AVAILSTATUS: ${AVAILSTATUS}, AVAILCAUSECODE: ${AVAILCAUSECODE}',5));
 					$ext->add($contextname, $ttsid, 'answertts', new ext_answer());
 					$ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext_it.'","'.$textnotfound_it.'",' .
 																	'"'.$ttstext_en.'","'.$textnotfound_en.'",' .
 																	'"'.$textbusy_it.'","'.$textbusy_en.'",' .
-																	'"'.$textbusynf_it.'","'.$textbusynf_en.'", ${AVAILCAUSECODE},' .
+																	'"'.$textbusynf_it.'","'.$textbusynf_en.'", ${AVAILSTATUS},' .
 																	$silence_t.','.$drop_t.','.$fade_t.',' .
-																	$music.','.$ttsengine.','.$ttspath['path']));
-
+																	$music.','.$ttsengine.','.$ttspath['path'].',${CDR(did):-2}'));
 					$ext->add($contextname, $ttsid, 'nextstep', new ext_goto($ttsgoto));
 				}
 			}

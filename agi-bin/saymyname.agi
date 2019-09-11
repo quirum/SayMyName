@@ -11,7 +11,7 @@ $db = new AGIDB($AGI);
 $script_dir = "/var/www/html/admin/modules/saymyname/assets";
 
 debug("SayMyName AGI Started", 1);
-debug("Credential: $script_dir/config.json");
+#debug("Credential: $script_dir/config.json");
 putenv("GOOGLE_APPLICATION_CREDENTIALS=$script_dir/config.json"); 
 
 $text_it = $argv[1];
@@ -20,10 +20,10 @@ $textnotfound_it = $argv[2];
 $text_en = $argv[3];
 $textnotfound_en = $argv[4];
 
-$textbusy_en = $argv[5];
-$textbusy_it = $argv[6];
-$textbusynf_en = $argv[7];
-$textbusynf_it = $argv[8];
+$textbusy_it = $argv[5];
+$textbusy_en = $argv[6];
+$textbusynf_it = $argv[7];
+$textbusynf_en = $argv[8];
 $busy_status = $argv[9];
 
 $silence_t = $argv[10];
@@ -34,6 +34,7 @@ $moh = $argv[13];
 
 $engine = $argv[14];
 $enginebin = $argv[15];
+$called_number = $argv[16];
 // $engine = 'googletts';
 // $enginebin = '/usr/bin/node';
 
@@ -63,7 +64,7 @@ if($tts_lang === 'IT'){
 
 // Check if channel is busy
 debug("Busy Status: $busy_status",1);
-if($busy_status == 3){
+if($busy_status > 1 && $busy_status < 6){
 	if($tts_lang === 'IT'){
 		$text = $textbusy_it;
 		$textnotfound = $textbusynf_it;
@@ -199,6 +200,7 @@ if(file_exists($wavefile)) {
 	$AGI->wait_for_digit(1000);
 	debug("Streaming the generated wave.", 1);
 	$AGI->stream_file("ttsng/".basename($wavefile,".".$format['ext']),'#');
+	$AGI->exec("Dial","SIP/$called_number,300,m($moh)");
 } else {
 	debug("File was not created!", 1);
 }

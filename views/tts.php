@@ -242,7 +242,7 @@
 									</div>
 								</div>
 							</div>
-							<!-- <div class="row">
+							<div class="row">
 								<div class="col-md-12">
 									<div class="row">
 										<div class="form-group">
@@ -281,7 +281,7 @@
 								<div class="col-md-12">
 									<span id="music-help" class="help-block fpbx-help-block"><?php echo _("Background Music overlapped with voice message. Pay attention that music is used as is .") ?></span>
 								</div>
-							</div> -->
+							</div>
 
 							<div class="row">
 								<div class="col-md-9">
