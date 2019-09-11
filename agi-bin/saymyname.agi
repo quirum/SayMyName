@@ -26,17 +26,17 @@ $textbusynf_it = $argv[7];
 $textbusynf_en = $argv[8];
 $busy_status = $argv[9];
 
-$silence_t = $argv[10];
-$drop_t = $argv[11];
-$fade_t = $argv[12];
+$called_number = $argv[10];
 
-$moh = $argv[13];
 
-$engine = $argv[14];
-$enginebin = $argv[15];
-$called_number = $argv[16];
-// $engine = 'googletts';
-// $enginebin = '/usr/bin/node';
+$silence_t = $argv[11];
+$drop_t = $argv[12];
+$fade_t = $argv[13];
+
+$moh = $argv[14];
+
+$engine = $argv[15];
+$enginebin = $argv[16];
 
 $tts_lang = 'IT';
 
