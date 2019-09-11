@@ -49,7 +49,7 @@ $cols = array (
 		'type' => 'integer'
 	),
 	'music' => array (
-		'type' => 'integer',
+		'type' => 'string',
 		'notnull' => false,
 	),
 	'engine' => array (

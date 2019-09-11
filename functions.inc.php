@@ -79,7 +79,7 @@ function saymyname_get_config($p_var) {
 					$ext->add($contextname, $ttsid, '', new ext_noop('TTS SayMyName: '.$ttsname));
 					$ext->add($contextname, $ttsid, '', new ext_chanisavail('SIP/${CDR(did):-2}'));
 					$ext->add($contextname, $ttsid, '', new ext_noop('AVAILCHAN: ${AVAILCHAN}, AVAILORIGCHAN: ${AVAILORIGCHAN}, AVAILSTATUS: ${AVAILSTATUS}, AVAILCAUSECODE: ${AVAILCAUSECODE}',5));
-					$ext->add($contextname, $ttsid, 'answertts', new ext_answer());
+					$ext->add($contextname, $ttsid, '', new ext_answer());
 					$ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext_it.'","'.$textnotfound_it.'",' .
 																	'"'.$ttstext_en.'","'.$textnotfound_en.'",' .
 																	'"'.$textbusy_it.'","'.$textbusy_en.'",' .
