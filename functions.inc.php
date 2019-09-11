@@ -80,12 +80,14 @@ function saymyname_get_config($p_var) {
 					$ext->add($contextname, $ttsid, '', new ext_chanisavail('SIP/${CDR(did):-2}'));
 					$ext->add($contextname, $ttsid, '', new ext_noop('AVAILCHAN: ${AVAILCHAN}, AVAILORIGCHAN: ${AVAILORIGCHAN}, AVAILSTATUS: ${AVAILSTATUS}, AVAILCAUSECODE: ${AVAILCAUSECODE}',5));
 					$ext->add($contextname, $ttsid, '', new ext_answer());
+					$ext->add($contextname, $ttsid, '', new ext_setmusiconhold($music));
 					$ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext_it.'","'.$textnotfound_it.'",' .
 																	'"'.$ttstext_en.'","'.$textnotfound_en.'",' .
 																	'"'.$textbusy_it.'","'.$textbusy_en.'",' .
 																	'"'.$textbusynf_it.'","'.$textbusynf_en.'",${AVAILSTATUS},${CDR(did):-2},' .
 																	$silence_t.','.$drop_t.','.$fade_t.',' .
 																	$music.','.$ttsengine.','.$ttspath['path']));
+					$ext->add($contextname, $ttsid, '', new ext_setmusiconhold('default'));
 					$ext->add($contextname, $ttsid, 'nextstep', new ext_goto($ttsgoto));
 				}
 			}
