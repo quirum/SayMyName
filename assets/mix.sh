@@ -11,10 +11,11 @@ WAV_OUT=$6 # Name of output file
 # Generate silence
 if [ "$SILENCE_SEC" -ne "0" ]; then
     ffmpeg -f lavfi -i anullsrc=channel_layout=5.1:sample_rate=48000 -t $SILENCE_SEC -y silence_$SILENCE_SEC.wav
+    ffmpeg -i $SPEECH -af "volume=2" ${SPEECH}_high.wav
     # Retard Voice
-    ffmpeg -i silence_$SILENCE_SEC.wav -i $SPEECH  -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' -y ${SPEECH}_retarded.wav
+    ffmpeg -i silence_$SILENCE_SEC.wav -i ${SPEECH}_high.wav  -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' -y ${SPEECH}_retarded.wav
 else
-    cp $SPEECH ${SPEECH}_retarded.wav
+    ffmpeg -i $SPEECH -af "volume=2" ${SPEECH}_retarded.wav
 fi
 
 # Overlap Music and Voice
@@ -42,6 +43,7 @@ else
 fi
 
 rm silence_$SILENCE_SEC.wav
+rm ${SPEECH}_high.wav
 rm ${SPEECH}_retarded.wav
 rm tmp_*.wav
 

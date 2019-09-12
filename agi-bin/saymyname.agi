@@ -11,7 +11,7 @@ $db = new AGIDB($AGI);
 $script_dir = "/var/www/html/admin/modules/saymyname/assets";
 
 debug("SayMyName AGI Started", 1);
-debug("Credential: $script_dir/config.json");
+#debug("Credential: $script_dir/config.json");
 putenv("GOOGLE_APPLICATION_CREDENTIALS=$script_dir/config.json"); 
 
 $text_it = $argv[1];
@@ -28,8 +28,6 @@ $moh = $argv[8];
 
 $engine = $argv[9];
 $enginebin = $argv[10];
-// $engine = 'googletts';
-// $enginebin = '/usr/bin/node';
 
 $tts_lang = 'IT';
 
@@ -38,8 +36,8 @@ $callerid = $AGI->request['agi_callerid'];
 debug("Number: $callerid", 1);
 
 if(substr( $callerid, 0, 2 ) === "00" || substr( $callerid, 0, 1 ) === "+"){
-	if((substr( $callerid, 0, 2 ) === "00" && substr( $callerid, 2, 4 ) === "39") || 
-			(substr( $callerid, 0, 1 ) === "+" && substr( $callerid, 1, 3 ) === "39"))
+	if((substr( $callerid, 0, 2 ) === "00" && substr( $callerid, 2, 2 ) === "39") || 
+			(substr( $callerid, 0, 1 ) === "+" && substr( $callerid, 1, 2 ) === "39"))
 		$tts_lang = 'IT';
 	else
 		$tts_lang = 'EN';
@@ -61,8 +59,8 @@ debug( "Number in contact manager with this number: " . $db->numrows);
 
 
 if ($db->numrows > 0) {
-        $text = str_replace("%n", $row[0]["fname"], $text);
-        $text = str_replace("%s", $row[0]["lname"], $text);
+		$text = str_replace("%n", $row[0]["fname"], $text);
+		$text = str_replace("%s", $row[0]["lname"], $text);
 } else {
 	$text = $textnotfound;
 }
@@ -137,6 +135,7 @@ debug("Generated WAV file: $wavefile", 3);
 $textfile = $soundsdir."/$engine-tts-$hash.txt";
 debug("TXT file: $textfile", 3);
 
+debug("MOH: $moh");
 $soundfile = $moh? $soundsdir."/BGSound.wav" : null;
 
 if ( !file_exists($wavefile) ) {
@@ -157,7 +156,7 @@ if ( !file_exists($wavefile) ) {
 			debug($enginebin." $script_dir/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash --lang='$tts_lang'");
 			exec($enginebin." $script_dir/main.js --mp3=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash.mp3 --text='$text' --wav=/var/lib/asterisk/sounds/ttsng/$engine-tts-$hash --lang='$tts_lang'");
 			break;
-        default:
+		default:
 			debug("$engine is not a valid engine!", 1);
 		break;
 	}}
