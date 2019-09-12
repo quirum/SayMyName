@@ -41,7 +41,7 @@ function saymyname_ne_getdestinfo($dest) {
 				if (empty($thistts)) {
 					return array();
 				} else {
-						return array('description' => sprintf(_("Say My Name: %s"),$thistts['name']),
+						return array('description' => sprintf(_("Say My Name - NewElfin: %s"),$thistts['name']),
 							'edit_url' => 'config.php?display=saymynamene&view=form&id='.urlencode($tts),
 							);
 				}

@@ -5,7 +5,7 @@
 				if (!empty($id)) {
 			?>
 					<h2>
-						<?php echo _("Say My Name Ne").": ". $name; ?>
+						<?php echo _("Say My Name NewElfin").": ". $name; ?>
 					</h2>
 			<?php
 				}
@@ -350,7 +350,7 @@
 					<?php //END Music on Hold ?>
 					
 					<?php //Destination ?>
-					<div class="section-title" data-for="section5"><h3><i class="fa fa-minus"></i><?php echo _("Destination if not available"); ?></h3></div>
+					<div class="section-title" data-for="section5"><h3><i class="fa fa-minus"></i><?php echo _("Destination"); ?></h3></div>
 					<div class="section" data-id="section5">
 						<div class="element-container">
 							<div class="row">
@@ -358,7 +358,7 @@
 									<div class="row">
 										<div class="form-group">
 											<div class="col-md-3">
-												<label class="control-label" for="goto"><?php echo _("Destintation"); ?></label>
+												<label class="control-label" for="goto"><?php echo _("Destintation if not available"); ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="goto"></i>
 											</div>
 											<div class="col-md-9">
