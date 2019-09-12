@@ -150,7 +150,13 @@
 								<div class="col-md-12">
 									<div class="row">
 										<h3 class="text-center">Backgorund Music in /var/lib/asterisk/sound/ttsng/BGSound.wav</h3>
-										<input type="checkbox" name="music" id="music" class="form-control" value="<?php echo (isset($music) ? $music : '0'); ?>">
+										<input type="checkbox" name="music" id="music" class="form-control" value="1<?php // echo (isset($music) ? $music : '0'); ?>" 
+										<?php 
+											if(isset($music) && $music || !isset($music))
+												echo "checked";
+											else
+												echo  ""; 
+										?> >
 									</div>
 								</div>
 							</div>
