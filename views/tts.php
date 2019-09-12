@@ -5,7 +5,7 @@
 				if (!empty($id)) {
 			?>
 					<h2>
-						<?php echo _("Say My Name - NewElfin").": ". $name; ?>
+						<?php echo _("Say My Name with Dial").": ". $name; ?>
 					</h2>
 			<?php
 				}
