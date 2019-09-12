@@ -17,7 +17,7 @@ if (!function_exists('music_list')) {
 
 //this function needs to be available to other modules (those that use goto destinations)
 //therefore we put it in globalfunctions.php
-$data['tts_list'] = saymyname_ne_list();
+$data['tts_list'] = saymynamene_list();
 $data['engine_list'] = ttsengines_get_all_engines();
 $data['music_list'] = music_list();
 $data['action'] = $_GET['action'];
@@ -35,7 +35,7 @@ if (!($tts_agi = file_exists($astlib_path."/agi-bin/saymynamene.agi"))) {
 }
 if($_GET['view'] == 'form'){
 	if (!empty($_GET['id']) || $action !== 'delete') {
-		$tts = saymyname_ne_get($_REQUEST['id']);
+		$tts = saymynamene_get($_REQUEST['id']);
 		foreach ($tts as $key => $value) {
 			$data[$key] = $value;
 		}

@@ -17,7 +17,7 @@ if ( $tts_agi = file_exists($astlib_path."/agi-bin/saymynamene.agi") ) {
 }
 
 // returns a associative arrays with keys 'destination' and 'description'
-function saymyname_ne_destinations() {
+function saymynamene_destinations() {
 	$results = \FreePBX::SayMyNameNe()->listTTS();
 
 	// return an associative array with destination and description
@@ -32,12 +32,12 @@ function saymyname_ne_destinations() {
 	}
 }
 
-function saymyname_ne_getdestinfo($dest) {
+function saymynamene_getdestinfo($dest) {
 	global $amp_conf;
 		if (substr(trim($dest),0,8) == 'ext-saymynamene,') {
 			$tts = explode(',',$dest);
 				$tts = $tts[1];
-				$thistts = saymyname_ne_get($tts);
+				$thistts = saymynamene_get($tts);
 				if (empty($thistts)) {
 					return array();
 				} else {
@@ -50,7 +50,7 @@ function saymyname_ne_getdestinfo($dest) {
 		}
 }
 
-function saymyname_ne_get_config($p_var) {
+function saymynamene_get_config($p_var) {
 	global $ext;
 
 	switch($p_var) {
@@ -58,7 +58,7 @@ function saymyname_ne_get_config($p_var) {
 			$contextname = 'ext-saymynamene';
 			if ( is_array($tts_list = \FreePBX::SayMyNameNe()->listTTS()) ) {
 				foreach($tts_list as $item) {
-					$tts = saymyname_ne_get($item['id']);
+					$tts = saymynamene_get($item['id']);
 					$ttsid = $tts['id'];
 					$ttsname= $tts['name'];
 					$ttstext_it = $tts['text_IT'];
@@ -95,7 +95,7 @@ function saymyname_ne_get_config($p_var) {
 	}
 }
 
-function saymyname_ne_get_ttsengine_path($engine) {
+function saymynamene_get_ttsengine_path($engine) {
 	if (function_exists('ttsengines_get_engine_path')) {
 		return ttsengines_get_engine_path($engine);
 	} else {
@@ -103,29 +103,29 @@ function saymyname_ne_get_ttsengine_path($engine) {
 	}
 }
 
-function saymyname_ne_list() {
+function saymynamene_list() {
 	dbug('tts_list has been moved in to BMO Tts->listTTS()');
 	return \FreePBX::SayMyNameNe()->listTTS();
 }
 
-function saymyname_ne_get($p_id) {
+function saymynamene_get($p_id) {
 	global $db;
 
 	$sql = "SELECT id, name, text_IT, goto, textnotfound_IT, text_EN, textnotfound_EN, 
 			textbusy_EN, textbusy_IT, textbusyNF_IT, textbusyNF_EN, 
-			silence_t, drop_t, fade_t, music, engine FROM saymyname_ne WHERE id=$p_id";
+			silence_t, drop_t, fade_t, music, engine FROM saymynamene WHERE id=$p_id";
 	$res = $db->getRow($sql, DB_FETCHMODE_ASSOC);
 	return $res;
 }
 
-function saymyname_ne_del($p_id) {
+function saymynamene_del($p_id) {
 	$dbh = \FreePBX::Database();
-	$sql = 'DELETE FROM saymyname_ne WHERE id = ?';
+	$sql = 'DELETE FROM saymynamene WHERE id = ?';
 	$stmt = $dbh->prepare($sql);
 	return $stmt->execute(array($p_id));
 }
 
-function saymyname_ne_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, $p_textbusy_en, $p_textbusy_it,
+function saymynamene_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, $p_textbusy_en, $p_textbusy_it,
 						$p_textbusynf_en, $p_textbusynf_it, $p_silence_t, $p_drop_t, $p_fade_t,	$p_moh, $p_engine) {
 	global $db;
 
@@ -138,7 +138,7 @@ function saymyname_ne_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_
 			}
 		}
 	}
-	$results = sql(	"INSERT INTO saymyname_ne SET name=".sql_formattext($p_name) .
+	$results = sql(	"INSERT INTO saymynamene SET name=".sql_formattext($p_name) .
 					" , text_IT=".sql_formattext($p_text_it).", goto=".sql_formattext($p_goto) .
 					" , textnotfound_IT=".sql_formattext($p_textnotfound_it) .
 					" , text_EN=".sql_formattext($p_text_en) .
@@ -156,10 +156,10 @@ function saymyname_ne_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_
 	return $db->insert_id();
 }
 
-function saymyname_ne_update(	$p_id, $p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, 
+function saymynamene_update(	$p_id, $p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, 
 							$p_textbusy_en, $p_textbusy_it, $p_textbusynf_en, $p_textbusynf_it, 
 							$p_silence_t, $p_drop_t, $p_fade_t, $p_moh, $p_engine) {
-	$results = sql(	"UPDATE saymyname_ne SET name=".sql_formattext($p_name) .
+	$results = sql(	"UPDATE saymynamene SET name=".sql_formattext($p_name) .
 					", text_IT=".sql_formattext($p_text_it).", goto=".sql_formattext($p_goto) .
 					", textnotfound_IT=".sql_formattext($p_textnotfound_it) .
 					", text_EN=".sql_formattext($p_text_en) .

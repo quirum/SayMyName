@@ -16,7 +16,7 @@ if ( file_exists($astlib_path."/agi-bin/saymynamene.agi") ) {
 	}
 }
 
-echo "dropping table saymyname_ne..";
-sql("DROP TABLE IF EXISTS `saymyname_ne`");
+echo "dropping table saymynamene..";
+sql("DROP TABLE IF EXISTS `saymynamene`");
 echo "done<br>\n";
 
