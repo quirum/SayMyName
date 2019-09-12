@@ -10,13 +10,13 @@ if ( (isset($amp_conf['ASTVARLIBDIR'])?$amp_conf['ASTVARLIBDIR']:'') == '') {
 	$astlib_path = $amp_conf['ASTVARLIBDIR'];
 }
 
-if ( file_exists($astlib_path."/agi-bin/saymyname.agi") ) {
-	if ( !unlink($astlib_path."/agi-bin/saymyname.agi") ) {
-		echo _("SayMyName AGI script cannot be removed.");
+if ( file_exists($astlib_path."/agi-bin/saymynamene.agi") ) {
+	if ( !unlink($astlib_path."/agi-bin/saymynamene.agi") ) {
+		echo _("SayMyNameNe AGI script cannot be removed.");
 	}
 }
 
-echo "dropping table saymyname..";
-sql("DROP TABLE IF EXISTS `saymyname`");
+echo "dropping table saymyname_ne..";
+sql("DROP TABLE IF EXISTS `saymyname_ne`");
 echo "done<br>\n";
 

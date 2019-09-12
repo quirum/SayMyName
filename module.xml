@@ -1,7 +1,7 @@
 <module>
-	<rawname>saymyname</rawname>
-	<name>Say My Name</name>
-	<version>1.4.2</version>
+	<rawname>saymyname_ne</rawname>
+	<name>Say My Name - NewElfin</name>
+	<version>1.4.3</version>
 	<repo>extended</repo>
 	<publisher>Quirum srl</publisher>
 	<license>GPLv3+</license>
@@ -20,6 +20,7 @@
 	</depends>
 	<location>release/2.11/tts-2.11.0.7.tgz</location>
 	<changelog>
+		*1.4.3*  Change to new Branch
 		*1.4.2*  Fix gnr99
 		*1.4.1*  Fix MoH default
 		*1.4.0*  SayMyName release

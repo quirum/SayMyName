@@ -1,5 +1,5 @@
 <?php
-$table = \FreePBX::Database()->migrate("saymyname");
+$table = \FreePBX::Database()->migrate("saymyname_ne");
 $cols = array (
 	'id' => array (
 		'type' => 'integer',

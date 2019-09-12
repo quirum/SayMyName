@@ -5,16 +5,16 @@
 				if (!empty($id)) {
 			?>
 					<h2>
-						<?php echo _("Say My Name").": ". $name; ?>
+						<?php echo _("Say My Name Ne").": ". $name; ?>
 					</h2>
 			<?php
 				}
 			?>
 			<div class="fpbx-container">
 				<div class="display full-border">
-					<form class="fpbx-submit popover-form" autocomplete="off" name="editTTS" action="?display=saymyname" method="post"
-					<?php echo !empty($id) ? 'data-fpbx-delete="config.php?display=saymyname&id='.$id.'&action=delete"' : ''; ?>>
-					<input type="hidden" name="display" value="saymyname">
+					<form class="fpbx-submit popover-form" autocomplete="off" name="editTTS" action="?display=saymynamene" method="post"
+					<?php echo !empty($id) ? 'data-fpbx-delete="config.php?display=saymynamene&id='.$id.'&action=delete"' : ''; ?>>
+					<input type="hidden" name="display" value="saymynamene">
 					<input type="hidden" name="action" value="<?php echo (!empty($id) ? 'edit' : 'add') ?>">
 					<?php if (!empty($id)) { ?>
 						<input type="hidden" name="id" value="<?php echo $id; ?>">
@@ -288,7 +288,7 @@
 									<div class="row">
 										<div class="form-group">
 											<div class="col-md-3">
-												<label class="control-label" for="silence_t"><?php echo _("Voice Delay second"); ?></label>
+												<label class="control-label" for="silence_t"><?php echo _("Voice Delay Second"); ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="silence_t"></i>
 											</div>
 											<div class="col-md-9">
@@ -350,7 +350,7 @@
 					<?php //END Music on Hold ?>
 					
 					<?php //Destination ?>
-					<div class="section-title" data-for="section5"><h3><i class="fa fa-minus"></i><?php echo _("Destination"); ?></h3></div>
+					<div class="section-title" data-for="section5"><h3><i class="fa fa-minus"></i><?php echo _("Destination if not available"); ?></h3></div>
 					<div class="section" data-id="section5">
 						<div class="element-container">
 							<div class="row">

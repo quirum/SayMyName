@@ -2,7 +2,7 @@
 // vim: set ai ts=4 sw=4 ft=php:
 namespace FreePBX\modules;
 
-class SayMyName extends \FreePBX_Helpers implements \BMO {
+class SayMyNameNe extends \FreePBX_Helpers implements \BMO {
 
 	public function __construct($freepbx = null) {
 		$this->freepbx = $freepbx;
@@ -54,7 +54,7 @@ class SayMyName extends \FreePBX_Helpers implements \BMO {
 
 		switch ($vars['action']) {
 			case "add":
-				$_REQUEST['id'] = \saymyname_add(	$vars['name'], $vars['text_IT'], $goto, $vars['textnotfound_IT'], 
+				$_REQUEST['id'] = \saymyname_ne_add(	$vars['name'], $vars['text_IT'], $goto, $vars['textnotfound_IT'], 
 													$vars['text_EN'], $vars['textnotfound_EN'], 
 													$vars['textbusy_EN'], $vars['textbusy_IT'], 
 													$vars['textbusyNF_EN'], $vars['textbusyNF_IT'], $vars['silence_t'],
@@ -62,12 +62,12 @@ class SayMyName extends \FreePBX_Helpers implements \BMO {
 				\needreload();
 			break;
 			case "delete":
-				\saymyname_del($vars['id']);
+				\saymyname_ne_del($vars['id']);
 				$_REQUEST['id'] = null;
 				\needreload();
 			break;
 			case "edit":
-				\saymyname_update(	$vars['id'], $vars['name'], $vars['text_IT'], $goto, $vars['textnotfound_IT'], 
+				\saymyname_ne_update(	$vars['id'], $vars['name'], $vars['text_IT'], $goto, $vars['textnotfound_IT'], 
 									$vars['text_EN'], $vars['textnotfound_EN'], 
 									$vars['textbusy_EN'], $vars['textbusy_IT'], 
 									$vars['textbusyNF_EN'], $vars['textbusyNF_IT'], $vars['silence_t'],
@@ -77,7 +77,7 @@ class SayMyName extends \FreePBX_Helpers implements \BMO {
 		}
 	}
 	public function listTTS(){
-		$sql = "SELECT * FROM saymyname ORDER BY name";
+		$sql = "SELECT * FROM saymyname_ne ORDER BY name";
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		$res = $stmt->fetchall(\PDO::FETCH_ASSOC);

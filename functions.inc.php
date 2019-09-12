@@ -10,20 +10,20 @@ if ( (isset($amp_conf['ASTVARLIBDIR'])?$amp_conf['ASTVARLIBDIR']:'') == '') {
 $tts_astsnd_path = $astlib_path."/sounds/ttsng/";
 
 
-if ( $tts_agi = file_exists($astlib_path."/agi-bin/saymyname.agi") ) {
+if ( $tts_agi = file_exists($astlib_path."/agi-bin/saymynamene.agi") ) {
 	//tts_findengines();
 } else {
 	$tts_agi_error = _("AGI script not found");
 }
 
 // returns a associative arrays with keys 'destination' and 'description'
-function saymyname_destinations() {
-	$results = \FreePBX::SayMyName()->listTTS();
+function saymyname_ne_destinations() {
+	$results = \FreePBX::SayMyNameNe()->listTTS();
 
 	// return an associative array with destination and description
 	if (isset($results) && $results){
 		foreach($results as $result){
-				$extens[] = array('destination' => 'ext-saymyname,'.$result['id'].',', 'description' => $result['name']);
+				$extens[] = array('destination' => 'ext-saymynamene,'.$result['id'].',', 'description' => $result['name']);
 		}
 
 		return $extens;
@@ -32,17 +32,17 @@ function saymyname_destinations() {
 	}
 }
 
-function saymyname_getdestinfo($dest) {
+function saymyname_ne_getdestinfo($dest) {
 	global $amp_conf;
-		if (substr(trim($dest),0,8) == 'ext-saymyname,') {
+		if (substr(trim($dest),0,8) == 'ext-saymynamene,') {
 			$tts = explode(',',$dest);
 				$tts = $tts[1];
-				$thistts = saymyname_get($tts);
+				$thistts = saymyname_ne_get($tts);
 				if (empty($thistts)) {
 					return array();
 				} else {
 						return array('description' => sprintf(_("Say My Name: %s"),$thistts['name']),
-							'edit_url' => 'config.php?display=saymyname&view=form&id='.urlencode($tts),
+							'edit_url' => 'config.php?display=saymynamene&view=form&id='.urlencode($tts),
 							);
 				}
 	} else {
@@ -50,15 +50,15 @@ function saymyname_getdestinfo($dest) {
 		}
 }
 
-function saymyname_get_config($p_var) {
+function saymyname_ne_get_config($p_var) {
 	global $ext;
 
 	switch($p_var) {
 		case "asterisk":
-			$contextname = 'ext-saymyname';
-			if ( is_array($tts_list = \FreePBX::SayMyName()->listTTS()) ) {
+			$contextname = 'ext-saymynamene';
+			if ( is_array($tts_list = \FreePBX::SayMyNameNe()->listTTS()) ) {
 				foreach($tts_list as $item) {
-					$tts = saymyname_get($item['id']);
+					$tts = saymyname_ne_get($item['id']);
 					$ttsid = $tts['id'];
 					$ttsname= $tts['name'];
 					$ttstext_it = $tts['text_IT'];
@@ -76,12 +76,12 @@ function saymyname_get_config($p_var) {
 					$music = $tts['music'];
 					$ttsengine = $tts['engine'];
 					$ttspath = ttsng_get_ttsengine_path($ttsengine);
-					$ext->add($contextname, $ttsid, '', new ext_noop('TTS SayMyName: '.$ttsname));
+					$ext->add($contextname, $ttsid, '', new ext_noop('TTS SayMyNameNe: '.$ttsname));
 					$ext->add($contextname, $ttsid, '', new ext_chanisavail('SIP/2${CDR(did):-2}'));
 					$ext->add($contextname, $ttsid, '', new ext_noop('AVAILCHAN: ${AVAILCHAN}, AVAILORIGCHAN: ${AVAILORIGCHAN}, AVAILSTATUS: ${AVAILSTATUS}, AVAILCAUSECODE: ${AVAILCAUSECODE}',5));
 					$ext->add($contextname, $ttsid, '', new ext_answer());
 					$ext->add($contextname, $ttsid, '', new ext_setmusiconhold($music));
-					$ext->add($contextname, $ttsid, '', new ext_agi('saymyname.agi,"'.$ttstext_it.'","'.$textnotfound_it.'",' .
+					$ext->add($contextname, $ttsid, '', new ext_agi('saymynamene.agi,"'.$ttstext_it.'","'.$textnotfound_it.'",' .
 																	'"'.$ttstext_en.'","'.$textnotfound_en.'",' .
 																	'"'.$textbusy_it.'","'.$textbusy_en.'",' .
 																	'"'.$textbusynf_it.'","'.$textbusynf_en.'",${AVAILSTATUS},2${CDR(did):-2},' .
@@ -95,7 +95,7 @@ function saymyname_get_config($p_var) {
 	}
 }
 
-function saymyname_get_ttsengine_path($engine) {
+function saymyname_ne_get_ttsengine_path($engine) {
 	if (function_exists('ttsengines_get_engine_path')) {
 		return ttsengines_get_engine_path($engine);
 	} else {
@@ -103,31 +103,33 @@ function saymyname_get_ttsengine_path($engine) {
 	}
 }
 
-function saymyname_list() {
+function saymyname_ne_list() {
 	dbug('tts_list has been moved in to BMO Tts->listTTS()');
-	return \FreePBX::SayMyName()->listTTS();
+	return \FreePBX::SayMyNameNe()->listTTS();
 }
 
-function saymyname_get($p_id) {
+function saymyname_ne_get($p_id) {
 	global $db;
 
-	$sql = "SELECT id, name, text_IT, goto, textnotfound_IT, text_EN, textnotfound_EN, textbusy_EN, textbusy_IT, textbusyNF_IT, textbusyNF_EN, silence_t, drop_t, fade_t, music, engine FROM saymyname WHERE id=$p_id";
+	$sql = "SELECT id, name, text_IT, goto, textnotfound_IT, text_EN, textnotfound_EN, 
+			textbusy_EN, textbusy_IT, textbusyNF_IT, textbusyNF_EN, 
+			silence_t, drop_t, fade_t, music, engine FROM saymyname_ne WHERE id=$p_id";
 	$res = $db->getRow($sql, DB_FETCHMODE_ASSOC);
 	return $res;
 }
 
-function saymyname_del($p_id) {
+function saymyname_ne_del($p_id) {
 	$dbh = \FreePBX::Database();
-	$sql = 'DELETE FROM saymyname WHERE id = ?';
+	$sql = 'DELETE FROM saymyname_ne WHERE id = ?';
 	$stmt = $dbh->prepare($sql);
 	return $stmt->execute(array($p_id));
 }
 
-function saymyname_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, $p_textbusy_en, $p_textbusy_it,
+function saymyname_ne_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, $p_textbusy_en, $p_textbusy_it,
 						$p_textbusynf_en, $p_textbusynf_it, $p_silence_t, $p_drop_t, $p_fade_t,	$p_moh, $p_engine) {
 	global $db;
 
-	$tts_list = \FreePBX::SayMyName()->listTTS();
+	$tts_list = \FreePBX::SayMyNameNe()->listTTS();
 	if (is_array($tts_list)) {
 		foreach ($tts_list as $tts) {
 			if ($tts['name'] === $p_name) {
@@ -136,7 +138,7 @@ function saymyname_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_tex
 			}
 		}
 	}
-	$results = sql(	"INSERT INTO saymyname SET name=".sql_formattext($p_name) .
+	$results = sql(	"INSERT INTO saymyname_ne SET name=".sql_formattext($p_name) .
 					" , text_IT=".sql_formattext($p_text_it).", goto=".sql_formattext($p_goto) .
 					" , textnotfound_IT=".sql_formattext($p_textnotfound_it) .
 					" , text_EN=".sql_formattext($p_text_en) .
@@ -154,10 +156,10 @@ function saymyname_add(	$p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_tex
 	return $db->insert_id();
 }
 
-function saymyname_update(	$p_id, $p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, 
+function saymyname_ne_update(	$p_id, $p_name, $p_text_it, $p_goto, $p_textnotfound_it, $p_text_en, $p_textnotfound_en, 
 							$p_textbusy_en, $p_textbusy_it, $p_textbusynf_en, $p_textbusynf_it, 
 							$p_silence_t, $p_drop_t, $p_fade_t, $p_moh, $p_engine) {
-	$results = sql(	"UPDATE saymyname SET name=".sql_formattext($p_name) .
+	$results = sql(	"UPDATE saymyname_ne SET name=".sql_formattext($p_name) .
 					", text_IT=".sql_formattext($p_text_it).", goto=".sql_formattext($p_goto) .
 					", textnotfound_IT=".sql_formattext($p_textnotfound_it) .
 					", text_EN=".sql_formattext($p_text_en) .

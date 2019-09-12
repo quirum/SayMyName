@@ -1,7 +1,7 @@
 <div id="toolbar-grid">
-  <a href="?display=saymyname&view=form" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add Message")?></a>
+  <a href="?display=saymynamene&view=form" class="btn btn-default"><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add Message")?></a>
 </div>
-<table data-url="ajax.php?module=saymyname&amp;command=getJSON&amp;jdata=grid" data-cache="false" data-toggle="table" data-search="true" data-toolbar="#toolbar-grid" class="table" id="table-grid">
+<table data-url="ajax.php?module=saymynamene&amp;command=getJSON&amp;jdata=grid" data-cache="false" data-toggle="table" data-search="true" data-toolbar="#toolbar-grid" class="table" id="table-grid">
     <thead>
         <tr>
             <th data-sortable="true" data-field="name"><?php echo _('Name')?></th>
@@ -24,8 +24,8 @@
   }
   function actionFormatter(value,row){
   	var html = '';
-  	html += '<a href="?display=saymyname&view=form&id='+value+'"><i class="fa fa-edit"></i></a>&nbsp;';
-  	html += '<a href="?display=saymyname&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash"></i></a>';
+  	html += '<a href="?display=saymynamene&view=form&id='+value+'"><i class="fa fa-edit"></i></a>&nbsp;';
+  	html += '<a href="?display=saymynamene&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash"></i></a>';
   	return html;
   }
 </script>
