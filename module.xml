@@ -1,7 +1,7 @@
 <module>
 	<rawname>saymynamene</rawname>
 	<name>Say My Name - NewElfin</name>
-	<version>1.4.4</version>
+	<version>1.4.5</version>
 	<repo>extended</repo>
 	<publisher>Quirum srl</publisher>
 	<license>GPLv3+</license>
@@ -10,7 +10,7 @@
 	<description>Allows you to generete a welcome text with googletts that can include name and/or surname of caller if he is in phonebook.</description>
 	<category>Applications</category>
 	<menuitems>
-		<saymyname needsenginedb="yes">Say My Name</saymyname>
+		<saymynamene needsenginedb="yes">Say My Name - NewElfin</saymynamene>
 	</menuitems>
 	<depends>
 		<engine>asterisk ge 1.6</engine>
@@ -20,6 +20,7 @@
 	</depends>
 	<location>release/2.11/tts-2.11.0.7.tgz</location>
 	<changelog>
+		*1.4.5*  Fix
 		*1.4.4*  Fix
 		*1.4.3*  Change to new Branch
 		*1.4.2*  Fix gnr99
@@ -44,9 +45,9 @@
 		*1.2.0*  New version without dependency
 	</changelog>
 	<popovers>
-		<saymyname>
+		<saymynamene>
 			<display>SayMyName - NewElfin</display>
-		</saymyname>
+		</saymynamene>
 	</popovers>
 	<supported>
 		<version>1.0.0</version>

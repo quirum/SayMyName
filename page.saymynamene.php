@@ -30,7 +30,7 @@ if ( (isset($amp_conf['ASTVARLIBDIR'])?$amp_conf['ASTVARLIBDIR']:'') == '') {
 $data['tts_astsnd_path'] = $astlib_path . "/sounds/ttsng/";
 
 $data['tts_agi_error'] = null;
-if (!($tts_agi = file_exists($astlib_path."/agi-bin/saymynamenene.agi"))) {
+if (!($tts_agi = file_exists($astlib_path."/agi-bin/saymynamene.agi"))) {
 	$data['tts_agi_error'] = _("AGI script not found");
 }
 if($_GET['view'] == 'form'){
