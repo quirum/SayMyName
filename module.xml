@@ -1,7 +1,7 @@
 <module>
 	<rawname>saymynamene</rawname>
 	<name>Say My Name - NewElfin</name>
-	<version>1.4.7</version>
+	<version>1.4.8</version>
 	<repo>extended</repo>
 	<publisher>Quirum srl</publisher>
 	<license>GPLv3+</license>
@@ -20,6 +20,7 @@
 	</depends>
 	<location>release/2.11/tts-2.11.0.7.tgz</location>
 	<changelog>
+		*1.4.8*  Bug Fix
 		*1.4.7*  Fix and Enchanment
 		*1.4.6*  Fix and Enchanment
 		*1.4.5*  Fix

@@ -23,7 +23,7 @@ function saymynamene_destinations() {
 	// return an associative array with destination and description
 	if (isset($results) && $results){
 		foreach($results as $result){
-				$extens[] = array('destination' => 'ext-saymynamene,'.$result['id'].',', 'description' => $result['name']);
+				$extens[] = array('destination' => 'ext-saymynamene,'.$result['id'].',1', 'description' => $result['name']);
 		}
 
 		return $extens;
