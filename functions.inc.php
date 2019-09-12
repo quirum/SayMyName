@@ -77,7 +77,7 @@ function saymynamene_get_config($p_var) {
 					$ttsengine = $tts['engine'];
 					$ttspath = ttsng_get_ttsengine_path($ttsengine);
 					$ext->add($contextname, $ttsid, '', new ext_noop('TTS SayMyNameNe: '.$ttsname));
-					$ext->add($contextname, $ttsid, '', new ext_chanisavail('SIP/2${CDR(did):-2}'));
+					$ext->add($contextname, $ttsid, '', new ext_chanisavail('SIP/2${CDR(did):-2},s'));
 					$ext->add($contextname, $ttsid, '', new ext_noop('AVAILCHAN: ${AVAILCHAN}, AVAILORIGCHAN: ${AVAILORIGCHAN}, AVAILSTATUS: ${AVAILSTATUS}, AVAILCAUSECODE: ${AVAILCAUSECODE}',5));
 					$ext->add($contextname, $ttsid, '', new ext_answer());
 					$ext->add($contextname, $ttsid, '', new ext_setmusiconhold($music));
