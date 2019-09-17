@@ -18,33 +18,25 @@ else
     ffmpeg -i $SPEECH -af "volume=2" ${SPEECH}_retarded.wav
 fi
 
-# Add silence in the tail of vocal message
-if [ "$FADE_TIME" -ne "0" ]; then
-    ffmpeg -f lavfi -i anullsrc=channel_layout=5.1:sample_rate=48000 -t $(($FADE_TIME + 1)) -y silence_$(($FADE_TIME + 1)).wav
-    ffmpeg -i ${SPEECH}_retarded.wav -i silence_$FADE_TIME.wav  -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' -y ${SPEECH}_fade.wav
-else
-    cp ${SPEECH}_retarded.wav ${SPEECH}_fade.wav
-fi
-
 # Overlap Music and Voice
 if [ "$SOUND" != "no_sound" ]; then
-    ffmpeg -i ${SPEECH}_fade.wav -i $SOUND -filter_complex amix=inputs=2:duration=shortest -y tmp_out_merge.wav
+    ffmpeg -i ${SPEECH}_retarded.wav -i $SOUND -filter_complex amix=inputs=2:duration=longest -y tmp_out_merge.wav
 else
-    cp ${SPEECH}_fade.wav tmp_out_merge.wav
+    cp ${SPEECH}_retarded.wav tmp_out_merge.wav
 fi
 
 # Drop Merged Message
 if [ "$DROP_SEC" -ne "0" ]; then
 
-    # ffmpeg -i tmp_out_merge.wav -c copy -t 00:00:$DROP_SEC.0 -y tmp_out_crop.wav
+    ffmpeg -i tmp_out_merge.wav -c copy -t 00:00:$DROP_SEC.0 -y tmp_out_crop.wav
 
     # Fade Out dropped message
     if [ "$FADE_TIME" -eq "0" ]; then
-        cp tmp_out_merge.wav $WAV_OUT
+        cp tmp_out_crop.wav $WAV_OUT
     else
         FADE_OUT_L="0:$FADE_TIME"
-        LENGTH=`soxi -d tmp_out_merge.wav`
-        sox tmp_out_merge.wav $WAV_OUT fade 0 $LENGTH $FADE_OUT_L
+        LENGTH=`soxi -d tmp_out_crop.wav`
+        sox tmp_out_crop.wav $WAV_OUT fade 0 $LENGTH $FADE_OUT_L
     fi
 else
     cp tmp_out_merge.wav $WAV_OUT
@@ -53,7 +45,6 @@ fi
 rm silence_$SILENCE_SEC.wav
 rm ${SPEECH}_high.wav
 rm ${SPEECH}_retarded.wav
-rm ${SPEECH}_fade.wav
 rm tmp_*.wav
 
 # ffmpeg -i google.wav -i MoHNewElfin.wav -filter_complex amix=inputs=2:duration=shortest output2.wav
