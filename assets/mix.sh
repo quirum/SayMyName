@@ -20,8 +20,9 @@ fi
 
 # Add silence in the tail of vocal message
 if [ "$FADE_TIME" -ne "0" ]; then
-    ffmpeg -f lavfi -i anullsrc=channel_layout=5.1:sample_rate=48000 -t $(($FADE_TIME + 1)) -y silence_$(($FADE_TIME + 1)).wav
-    ffmpeg -i ${SPEECH}_retarded.wav -i silence_$FADE_TIME.wav  -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' -y ${SPEECH}_fade.wav
+    LONG_FADE=$(($FADE_TIME + $DROP_SEC))
+    ffmpeg -f lavfi -i anullsrc=channel_layout=5.1:sample_rate=48000 -t $LONG_FADE -y silence_$LONG_FADE.wav
+    ffmpeg -i ${SPEECH}_retarded.wav -i silence_$LONG_FADE.wav  -filter_complex '[0:0][1:0]concat=n=2:v=0:a=1[out]' -map '[out]' -y ${SPEECH}_fade.wav
 else
     cp ${SPEECH}_retarded.wav ${SPEECH}_fade.wav
 fi
@@ -34,7 +35,7 @@ else
 fi
 
 # Drop Merged Message
-if [ "$DROP_SEC" -ne "0" ]; then
+if [ "$FADE_TIME" -ne "0" ]; then
 
     # ffmpeg -i tmp_out_merge.wav -c copy -t 00:00:$DROP_SEC.0 -y tmp_out_crop.wav
 
